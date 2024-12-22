@@ -5,17 +5,18 @@ import Login from './components/login'
 import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 
-const navigate = useNavigate();
-
 function DetailCardPage(){
   return <p>this is detailcard</p>
 }
 
 function Landingpage(){
+  const navigate = useNavigate();
+
   const handlelogin = () => {
     navigate('/login')
   }
-  return (<div>
+  return (
+  <div>
     <Button
       onClick={handlelogin}
     >
