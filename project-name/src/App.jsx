@@ -19,9 +19,11 @@ function DetailCardPage(){
 function Headfoot(){
   const setuser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
+  const navigate = useNavigate();
 
-  if(user.id === undefined){
+  if(user.Id === undefined){
     console.log('user not logged in')
+    navigate('/login')
   }
   
   return (

@@ -20,7 +20,15 @@ const Login = () => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const setuser = useSetRecoilState(userState);
+  const user = useRecoilValue(userState);
 
+  console.log(user)
+
+  if(user.Id !== undefined){
+    console.log('user exists?')
+    navigate('/user')
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,10 +36,12 @@ const Login = () => {
     await delay(500);
     console.log(`Username :${inputUsername}, Password :${inputPassword}`);
     if (inputUsername !== "admin" || inputPassword !== "admin") {
-      const setuser = useSetRecoilState(userState);
+      setShow(true)
+    }
+    else{
       setuser({
-          Id: "admin",
-          name: "admin"
+        Id: "admin",
+        name: "admin"
       })
       navigate('/user')
     }
