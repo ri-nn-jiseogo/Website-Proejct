@@ -2,21 +2,38 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Login from './components/login'
+import Dashboard from './components/dashboard'
 import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
+
+import { userState } from './models/userinfos'
+import { useSetRecoilState, useRecolValue } from 'recoil';
+
+
 
 function DetailCardPage(){
   return <p>this is detailcard</p>
 }
 
-function Dummypage(){
+function Headfoot(){
+  const setuser = useSetRecoilState(userState);
+  const user = useRecolValue(userState);
+
+  if(user.id === undefined){
+    console.log('user not logged in')
+  }
+  
   return (
+      <div>
+        <p>header</p>
         <Routes>
-          <Route path="/" element={<p>header</p>} />
-          <Route path="/" element={<p>footer</p>} >
+          <Route path="/" element={<Dashboard/>} />
+          <Route path="/2" element={<p>content 2</p>} >
         </Route>
         </Routes>
+        <p>footer</p>
+      </div>
   )
 }
 
@@ -43,7 +60,7 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<Landingpage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dummy" element={<Dummypage />} />
+          <Route path="/user/*" element={<Headfoot />} />
           <Route path="/gallery" element={<DetailCardPage />}>
           </Route>
         </Routes>
