@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+
 import Login from './components/login'
 import Dashboard from './components/dashboard'
+import Lecture from './components/lecture'
+import Header from './components/header'
+
 import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
@@ -21,18 +25,21 @@ function Headfoot(){
   const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
-  if(user.Id === undefined){
-    console.log('user not logged in')
-    navigate('/login')
-  }
+  useEffect(() => {
+    if(user?.Id === undefined){
+      console.log('user not logged in')
+      navigate('/login')
+    }
+  }, [user, navigate])
+  
   
   return (
       <div>
-        <p>header</p>
+        <Header/>
         <Routes>
           <Route path="/" element={<Dashboard/>} />
-          <Route path="/2" element={<p>content 2</p>} >
-        </Route>
+          <Route path="/lecture" element={<Lecture/>} />
+          <Route path="/admin" element={<div><b>This is admin</b> </div>} />
         </Routes>
         <p>footer</p>
       </div>

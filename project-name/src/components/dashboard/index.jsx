@@ -13,10 +13,14 @@ const Dashboard = () =>{
         <div>
             class - progress
             Basic information
+
+            <p>안녕하세요, <span>{user.name}</span></p>
+            
             <Button
                 onClick={(e) => {
                     e.preventDefault()
-                    console.log("onclick")
+                    console.log("lecture")
+                    navigate('/user/lecture')
                 }}
             >
                 Continue Lecture
@@ -24,11 +28,10 @@ const Dashboard = () =>{
 
             <Button
                 onClick={(e) => {
-                    // setuser({
-                    //     Id: undefined,
-                    //     name: undefined
-                    // })
-                    navigate('/login')
+                    setuser({
+                        Id: undefined,
+                        name: undefined
+                    })
                 }}
             >
                 Log Out

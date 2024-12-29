@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../src/styles.css"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import "./login.css";
 
@@ -25,25 +25,38 @@ const Login = () => {
 
   console.log(user)
 
-  if(user.Id !== undefined){
-    console.log('user exists?')
-    navigate('/user')
-  }
+  useEffect(() => {
+    if(user?.Id !== undefined){
+      console.log('user exists?')
+      navigate('/user')
+    }
+  }, [navigate, user])
 
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     await delay(500);
     console.log(`Username :${inputUsername}, Password :${inputPassword}`);
-    if (inputUsername !== "admin" || inputPassword !== "admin") {
-      setShow(true)
-    }
-    else{
+    if (inputUsername === "admin" && inputPassword === "admin") {
       setuser({
         Id: "admin",
-        name: "admin"
+        name: "admin",
+        isstaff: true
+      })
+      navigate('/user/admin')
+
+    }
+    else if(inputUsername === "normal" && inputPassword === "normal") {
+      setuser({
+        Id: "normal",
+        name: "normal",
+        isstaff: false
       })
       navigate('/user')
+    }
+    else{
+      setShow(true)
     }
     setLoading(false);
   };
