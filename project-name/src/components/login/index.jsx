@@ -28,7 +28,12 @@ const Login = () => {
   useEffect(() => {
     if(user?.Id !== undefined){
       console.log('user exists?')
-      navigate('/user')
+      if(user?.isstaff){
+        navigate('/user/admin')
+      }
+      else{
+        navigate('/user')
+      }
     }
   }, [navigate, user])
 
@@ -44,8 +49,6 @@ const Login = () => {
         name: "admin",
         isstaff: true
       })
-      navigate('/user/admin')
-
     }
     else if(inputUsername === "normal" && inputPassword === "normal") {
       setuser({
@@ -53,7 +56,6 @@ const Login = () => {
         name: "normal",
         isstaff: false
       })
-      navigate('/user')
     }
     else{
       setShow(true)
