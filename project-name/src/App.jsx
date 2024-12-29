@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
 
 import { userState } from './models/userinfos'
-import { useSetRecoilState, useRecolValue } from 'recoil';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
 
 
 
@@ -18,7 +18,7 @@ function DetailCardPage(){
 
 function Headfoot(){
   const setuser = useSetRecoilState(userState);
-  const user = useRecolValue(userState);
+  const user = useRecoilValue(userState);
 
   if(user.id === undefined){
     console.log('user not logged in')

@@ -8,12 +8,19 @@ import "./login.css";
 import BackgroundImage from "../../assets/background.png";
 import Logo from "../../assets/logo.png";
 
+import { useNavigate } from "react-router-dom";
+
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { userState } from '../../models/userinfos'
+
 const Login = () => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,8 +28,12 @@ const Login = () => {
     await delay(500);
     console.log(`Username :${inputUsername}, Password :${inputPassword}`);
     if (inputUsername !== "admin" || inputPassword !== "admin") {
-      setShow(true);
-      
+      const setuser = useSetRecoilState(userState);
+      setuser({
+          Id: "admin",
+          name: "admin"
+      })
+      navigate('/user')
     }
     setLoading(false);
   };
