@@ -13,6 +13,9 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '../../models/userinfos'
 
+import {getUsers} from "../../firebase.js";
+
+
 const Login = () => {
   const [inputUsername, setInputUsername] = useState("");
   const [inputPassword, setInputPassword] = useState("");
@@ -43,23 +46,41 @@ const Login = () => {
     setLoading(true);
     await delay(500);
     console.log(`Username :${inputUsername}, Password :${inputPassword}`);
-    if (inputUsername === "admin" && inputPassword === "admin") {
-      setuser({
-        Id: "admin",
-        name: "admin",
-        isstaff: true
-      })
-    }
-    else if(inputUsername === "normal" && inputPassword === "normal") {
-      setuser({
-        Id: "normal",
-        name: "normal",
-        isstaff: false
-      })
-    }
-    else{
-      setShow(true)
-    }
+
+    getUsers().then((users) => {
+      console.log(users)
+      if(users){
+          const filtered = users.docs.filter(element => {
+              console.log(element.id)
+              return element.id === inputUsername
+          });
+          console.log(filtered)
+          if(filtered.length === 0){
+              setShow(true)
+              aleart("No such user")
+          }
+          else{
+              console.log("available")
+              
+              const existuser = filtered[0]
+
+              console.log(existuser)
+              if(existuser.passwords === inputPassword){
+                setuser({
+                  Id: existuser.Id,
+                  name: existuser.name,
+                  isstaff: existuser.isstaff
+                })
+              }
+              else{
+                alert("password does not match")
+              }
+          }
+      }
+    }).catch((err) => {
+        console.log(err)
+    })
+
     setLoading(false);
   };
 

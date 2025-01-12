@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form } from "react-bootstrap"
+import { Form, Modal } from "react-bootstrap"
 import {addUser, getUsers} from "../../firebase.js";
 
 
@@ -25,11 +25,27 @@ const Register = () => {
             getUsers().then((users) => {
                 console.log(users)
                 if(users){
-                    const filtered = users.filter(element => {
+                    const filtered = users.docs.filter(element => {
                         console.log(element.id)
                         return element.id === userid
                     });
                     console.log(filtered)
+                    if(filtered.length === 0){
+                        console.log("available!")
+                        addUser(userid, {
+                            Id: userid,
+                            passwords: passwords,
+                            name: name,
+                            class: className,
+                            dob: dob,
+                            school: school,
+                            isstaff: false
+                        })
+                    }
+                    else{
+                        console.log("not available")
+                        alert("Same ID")
+                    }
                 }
             }).catch((err) => {
                 console.log(err)
@@ -37,6 +53,7 @@ const Register = () => {
         }
         else{
             console.log("missing data")
+            alert("One or more missing data")
         }
     }
 
