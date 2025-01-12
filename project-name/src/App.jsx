@@ -14,6 +14,20 @@ import { Button } from 'react-bootstrap';
 import { userState } from './models/userinfos'
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 
+import { getDoc, doc } from 'firebase/firestore/lite'
+
+
+async function getComments(nickname) {
+  const comments = doc(db, 'comments', nickname)
+  const commentsSnapshot = await getDoc(comments)
+
+  if (!commentsSnapshot.exists()) {
+    return null
+  }
+
+  return commentsSnapshot.data()
+}
+
 
 
 function DetailCardPage(){
@@ -31,6 +45,11 @@ function Headfoot(){
       navigate('/login')
     }
   }, [user, navigate])
+
+  useEffect(() => {
+    const comments = doc(db, 'comments', nickname)
+    getDoc(comments).then((snapshot)=>{console.log(snapshot)})
+  }, [])
   
   
   return (
