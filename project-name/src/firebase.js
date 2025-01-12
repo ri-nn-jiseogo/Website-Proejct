@@ -1,11 +1,6 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {doc, getDoc, getDocs, getFirestore, collection, setDoc} from 'firebase/firestore/lite'
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDJmZbFJc5l5eET0T0JgjIWPIm-UaeaVdQ",
   authDomain: "websiteproject-cb618.firebaseapp.com",
@@ -15,7 +10,39 @@ const firebaseConfig = {
   appId: "1:924450092972:web:d15a42a34d2feeb78aac09",
   measurementId: "G-E9TKTWG5GQ"
 };
-
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = getFirestore(app)
+
+async function getComments() {
+  const commentsRef = collection(db, 'comments');
+  const commentsSnapshot = await getDocs(commentsRef); // 전체 문서 가져오기
+
+  commentsSnapshot.forEach((doc) => {
+    console.log(doc.id, '=>', doc.data());
+  });
+}
+
+async function addComment(id, comment) {
+    const commentRef = doc(db, 'comments', id)
+    setDoc(commentRef, comment, { merge: true })
+  }
+
+async function addUser(id, user){
+    const userRef = doc(db, 'users', id)
+    setDoc(userRef, user, {merge: true })
+}
+
+async function getUsers() {
+    const usersRef = collection(db, 'users');
+    const usersSnapshot = await getDocs(usersRef);
+
+    return usersSnapshot
+}
+
+export {
+  db,
+  getComments,
+  addComment,
+  addUser,
+  getUsers
+}

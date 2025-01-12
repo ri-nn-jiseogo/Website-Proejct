@@ -6,6 +6,7 @@ import Login from './components/login'
 import Dashboard from './components/dashboard'
 import Lecture from './components/lecture'
 import Header from './components/header'
+import Register from './components/register'
 
 import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
@@ -14,20 +15,7 @@ import { Button } from 'react-bootstrap';
 import { userState } from './models/userinfos'
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 
-import { getDoc, doc } from 'firebase/firestore/lite'
-
-
-async function getComments(nickname) {
-  const comments = doc(db, 'comments', nickname)
-  const commentsSnapshot = await getDoc(comments)
-
-  if (!commentsSnapshot.exists()) {
-    return null
-  }
-
-  return commentsSnapshot.data()
-}
-
+import {addComment, addUser, getComments} from "./firebase.js";
 
 
 function DetailCardPage(){
@@ -47,14 +35,24 @@ function Headfoot(){
   }, [user, navigate])
 
   useEffect(() => {
-    const comments = doc(db, 'comments', nickname)
-    getDoc(comments).then((snapshot)=>{console.log(snapshot)})
+    getComments().then(res => {
+      console.log('comments :', res)
+    })
   }, [])
-  
   
   return (
       <div>
         <Header/>
+        <Button
+          onClick= {() => {addUser("123", {Id: "admin",
+            name: "admin",
+            class: "admin",
+            dob: "2007-09-08",
+            school: "admin",
+            isstaff: true
+          })}}>
+          Add Comment
+        </Button>
         <Routes>
           <Route path="/" element={<Dashboard/>} />
           <Route path="/lecture" element={<Lecture/>} />
@@ -89,7 +87,7 @@ const Router = () => {
           <Route path="/" element={<Landingpage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user/*" element={<Headfoot />} />
-          <Route path="/gallery" element={<DetailCardPage />}>
+          <Route path="/register" element={<Register />}>
           </Route>
         </Routes>
     </BrowserRouter>
