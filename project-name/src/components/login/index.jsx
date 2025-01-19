@@ -62,9 +62,10 @@ const Login = () => {
           else{
               console.log("available")
               
-              const existuser = filtered[0]
+              const existuser = filtered[0].data()
 
               console.log(existuser)
+              console.log(existuser.passwords)
               if(existuser.passwords === inputPassword){
                 setuser({
                   Id: existuser.Id,
@@ -93,12 +94,11 @@ const Login = () => {
   return (
     <div
       className="sign-in__wrapper"
-      style={{ backgroundImage: `url(${BackgroundImage})` }}
     >
       {/* Overlay */}
       <div className="sign-in__backdrop"></div>
       {/* Form */}
-      <Form className="shadow p-4 bg-white rounded" onSubmit={handleSubmit}>
+      <Form className="form" onSubmit={handleSubmit}>
         {/* Header */}
         <img
           className="img-thumbnail mx-auto d-block mb-2"
@@ -162,9 +162,6 @@ const Login = () => {
         </div>
       </Form>
       {/* Footer */}
-      <div className="w-100 mb-2 position-absolute bottom-0 start-50 translate-middle-x text-white text-center">
-        Made by Hendrik C | &copy;2022
-      </div>
     </div>
   );
 };

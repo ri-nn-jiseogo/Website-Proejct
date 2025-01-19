@@ -7,6 +7,7 @@ import Dashboard from './components/dashboard'
 import Lecture from './components/lecture'
 import Header from './components/header'
 import Register from './components/register'
+import Editor from './components/editor'
 
 import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
@@ -43,14 +44,7 @@ function Headfoot(){
   return (
       <div>
         <Header/>
-        <Button
-          onClick= {() => {addUser("123", {Id: "admin",
-            name: "admin",
-            class: "admin",
-            dob: "2007-09-08",
-            school: "admin",
-            isstaff: true
-          })}}>
+        <Button>
           Add Comment
         </Button>
         <Routes>
@@ -87,7 +81,8 @@ const Router = () => {
           <Route path="/" element={<Landingpage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/user/*" element={<Headfoot />} />
-          <Route path="/register" element={<Register />}>
+          <Route path="/register" element={<Register />}/>
+          <Route path="/editor" element={<Editor />}>
           </Route>
         </Routes>
     </BrowserRouter>
