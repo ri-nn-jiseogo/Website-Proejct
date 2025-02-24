@@ -1,8 +1,11 @@
 #root {
   max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  /* padding: 2rem; */
+  /* text-align: center; */
+  font-family: "Momentz";
 }
 
 .logo {
@@ -31,6 +34,23 @@
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
+}
+
+.Menu {
+  display: flex;
+  height: 100%;
+  text-align: center;
+  margin-left: 250px;
+  padding: 30px;
+}
+
+.Menu .Content{
+  flex-grow: 1;
+  height: 100%;
+}
+
+.Content{
+  width: 100%;
 }
 
 .card {

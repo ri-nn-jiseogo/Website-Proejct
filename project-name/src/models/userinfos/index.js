@@ -9,6 +9,7 @@ export const userState = atom({
         class: undefined,
         dob: undefined,
         school: undefined,
-        isstaff: undefined
+        isstaff: undefined,
+        level: undefined
     }
 });

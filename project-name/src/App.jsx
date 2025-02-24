@@ -8,6 +8,10 @@ import Lecture from './components/lecture'
 import Header from './components/header'
 import Register from './components/register'
 import Editor from './components/editor'
+import Sidebar from './components/sidebar'
+import Stages from './components/stages'
+
+import "./fonts/Momentz.ttf";
 
 import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
@@ -42,17 +46,16 @@ function Headfoot(){
   }, [])
   
   return (
-      <div>
-        <Header/>
-        <Button>
-          Add Comment
-        </Button>
-        <Routes>
-          <Route path="/" element={<Dashboard/>} />
-          <Route path="/lecture" element={<Lecture/>} />
-          <Route path="/admin" element={<div><b>This is admin</b> </div>} />
-        </Routes>
-        <p>footer</p>
+      <div className='Menu'>
+        <Sidebar></Sidebar>
+        <div className = 'Content'>
+          <Routes>
+            <Route path="/" element={<Stages/>} />
+            <Route path="/lecture" element={<Lecture/>} />
+            <Route path="/admin" element={<div><b>This is admin</b> </div>} />
+          </Routes>
+        </div>
+        
       </div>
   )
 }

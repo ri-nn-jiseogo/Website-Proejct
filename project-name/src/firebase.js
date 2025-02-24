@@ -39,10 +39,20 @@ async function getUsers() {
     return usersSnapshot
 }
 
+async function getlevel() {
+  const levelRef = collection(db, 'level');
+  const usersSnapshot = await getDocs(levelRef);
+
+  return usersSnapshot
+}
+
+
+
 export {
   db,
   getComments,
   addComment,
   addUser,
-  getUsers
+  getUsers,
+  getlevel
 }

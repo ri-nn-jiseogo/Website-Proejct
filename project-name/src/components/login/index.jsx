@@ -68,6 +68,7 @@ const Login = () => {
               console.log(existuser.passwords)
               if(existuser.passwords === inputPassword){
                 setuser({
+                  level: existuser.level,
                   Id: existuser.Id,
                   name: existuser.name,
                   isstaff: existuser.isstaff
