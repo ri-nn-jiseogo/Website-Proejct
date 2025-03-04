@@ -5,10 +5,8 @@ export const userState = atom({
     key: 'user',
     default: {
         Id: undefined,
-        name: undefined,
-        class: undefined,
-        dob: undefined,
-        school: undefined,
+        firstname: undefined,
+        lastname: undefined,
         isstaff: undefined,
         level: undefined
     }

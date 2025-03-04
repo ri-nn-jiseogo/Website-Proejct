@@ -17,41 +17,48 @@ const Register = () => {
         console.log("submitted")
         const userid = e.target.elements.user.value
         const passwords = e.target.elements.passwords.value
-        const name = e.target.elements.name.value
-        const className = e.target.elements.className.value
-        const dob = e.target.elements.dob.value
-        const school = e.target.elements.school.value
+        const firstname = e.target.elements.firstname.value
+        const lastname = e.target.elements.lastname.value
+        const confirmpass = e.target.elements.confirmpass.value
 
-        if (userid && passwords && name && className && dob && school) {
+        if (userid && passwords && firstname &&lastname && confirmpass) {
             console.log("all requireed ok")
-            getUsers().then((users) => {
-                console.log(users)
-                if (users) {
-                    const filtered = users.docs.filter(element => {
-                        console.log(element.id)
-                        return element.id === userid
-                    });
-                    console.log(filtered)
-                    if (filtered.length === 0) {
-                        console.log("available!")
-                        addUser(userid, {
-                            Id: userid,
-                            passwords: passwords,
-                            name: name,
-                            class: className,
-                            dob: dob,
-                            school: school,
-                            isstaff: false
-                        })
-                    }
-                    else {
-                        console.log("not available")
-                        alert("Same ID")
-                    }
+            if(password.length >= 8){
+                if(passwords === confirmpass){
+                    getUsers().then((users) => {
+                        console.log(users)
+                        if (users) {
+                            const filtered = users.docs.filter(element => {
+                                console.log(element.id)
+                                return element.id === userid
+                            });
+                            console.log(filtered)
+                            if (filtered.length === 0) {
+                                console.log("available!")
+                                addUser(userid, {
+                                    Id: userid,
+                                    passwords: passwords,
+                                    firstname: firstname,
+                                    lastname: lastname,
+                                    isstaff: false
+                                })
+                            }
+                            else {
+                                console.log("not available")
+                                alert("Same ID")
+                            }
+                        }
+                    }).catch((err) => {
+                        console.log(err)
+                    })
                 }
-            }).catch((err) => {
-                console.log(err)
-            })
+                else{
+                    aleart("Confirm password does not match with password")
+                }
+            }
+            else{
+                aleart("Password must be 8 letters or more")
+            }
         }
         else {
             console.log("missing data")
@@ -92,39 +99,30 @@ const Register = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label>Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Name"
-                            name="name"
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label>Class</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Class"
-                            name="className"
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label>Date Of Birth</label>
+                        <label>Confirm Password</label>
                         <input
                             type="dob"
                             className="form-control"
-                            placeholder="Date Of Birth (YYYY-MM-DD)"
-                            name="dob"
+                            placeholder="Confirm Password"
+                            name="confirmpass"
                         />
                     </div>
                     <div className="mb-3">
-                        <label>School</label>
+                        <label>First Name</label>
                         <input
-                            type="school"
+                            type="text"
                             className="form-control"
-                            placeholder="School"
-                            name="school"
+                            placeholder="First Name"
+                            name="firstname"
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label>Last Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Last Name"
+                            name="lastname"
                         />
                     </div>
                     <div className="d-grid">
