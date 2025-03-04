@@ -87,7 +87,7 @@ const Login = () => {
 
       setLoading(false);
     }
-    else{
+    else {
       setMessage("One or more field missing")
     }
   }
@@ -115,7 +115,7 @@ const Login = () => {
           alt="logo"
         />
 
-        {message && <div class="alert alert-warning" role="alert">
+        {message && <div className="alert alert-warning" role="alert">
           {message}
         </div>}
 
@@ -138,7 +138,6 @@ const Login = () => {
             value={inputUsername}
             placeholder="Username"
             onChange={(e) => setInputUsername(e.target.value)}
-            required
           />
         </Form.Group>
         <Form.Group className="mb-2" controlId="password">
@@ -148,21 +147,14 @@ const Login = () => {
             value={inputPassword}
             placeholder="Password"
             onChange={(e) => setInputPassword(e.target.value)}
-            required
           />
         </Form.Group>
         <Form.Group className="mb-2" controlId="checkbox">
           <Form.Check type="checkbox" label="Remember me" />
         </Form.Group>
-        {!loading ? (
-          <Button className="w-100" variant="primary" type="submit">
-            Log In
-          </Button>
-        ) : (
-          <Button className="w-100" variant="primary" type="submit" disabled>
-            Logging In...
-          </Button>
-        )}
+        <Button className="w-100" variant="primary" type="submit">
+          Log In
+        </Button>
 
         {/* <div className="d-grid justify-content-end"><Button
           className="text-muted px-0"

@@ -79,7 +79,7 @@ const Register = () => {
                     alt="logo"
                 />
 
-                {message && <div class="alert alert-warning" role="alert">
+                {message && <div className="alert alert-warning" role="alert">
                     {message}
                 </div>}
 
