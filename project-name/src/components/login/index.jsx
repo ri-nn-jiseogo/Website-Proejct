@@ -106,6 +106,7 @@ const Login = () => {
           src={Logo}
           alt="logo"
         />
+        
         {/* ALert */}
         {show ? (
           <Alert
@@ -151,8 +152,8 @@ const Login = () => {
             Logging In...
           </Button>
         )}
-        
-        <div className="d-grid justify-content-end"><Button
+
+        {/* <div className="d-grid justify-content-end"><Button
           className="text-muted px-0"
           variant="link"
           onClick={handlePassword}
@@ -160,7 +161,7 @@ const Login = () => {
           Forgot password?
         </Button>
 
-        </div>
+        </div> */}
 
 
         <div className="mt-2 text-center">
