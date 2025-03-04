@@ -24,12 +24,17 @@ html, body {
 .sign-in__backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(30, 40, 50, 1);
+  background-color: rgba(256, 256, 256, 1);
   z-index: 0; /* Place the backdrop behind the form */
 }
 
+.Logo {
+  width: 20rem !important;
+  height: auto;
+}
+
 .form {
-  background-color: rgba(42, 53, 66, 1);
+  background-color: rgba(256, 256, 256, 1);
   padding: 20px;
   border-radius: 10px;
   z-index: 1; /* Ensure the form is above the backdrop */

@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import "./login.css";
 
-import BackgroundImage from "../../assets/background.png";
 import Logo from "../../assets/logo.png";
 
 import { useNavigate } from "react-router-dom";
@@ -13,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '../../models/userinfos'
 
-import {getUsers} from "../../firebase.js";
+import { getUsers } from "../../firebase.js";
 
 
 const Login = () => {
@@ -29,18 +28,18 @@ const Login = () => {
   console.log(user)
 
   useEffect(() => {
-    if(user?.Id !== undefined){
+    if (user?.Id !== undefined) {
       console.log('user exists?')
-      if(user?.isstaff){
+      if (user?.isstaff) {
         navigate('/user/admin')
       }
-      else{
+      else {
         navigate('/user')
       }
     }
   }, [navigate, user])
 
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -49,44 +48,44 @@ const Login = () => {
 
     getUsers().then((users) => {
       console.log(users)
-      if(users){
-          const filtered = users.docs.filter(element => {
-              console.log(element.id)
-              return element.id === inputUsername
-          });
-          console.log(filtered)
-          if(filtered.length === 0){
-              setShow(true)
-              aleart("No such user")
-          }
-          else{
-              console.log("available")
-              
-              const existuser = filtered[0].data()
+      if (users) {
+        const filtered = users.docs.filter(element => {
+          console.log(element.id)
+          return element.id === inputUsername
+        });
+        console.log(filtered)
+        if (filtered.length === 0) {
+          setShow(true)
+          aleart("No such user")
+        }
+        else {
+          console.log("available")
 
-              console.log(existuser)
-              console.log(existuser.passwords)
-              if(existuser.passwords === inputPassword){
-                setuser({
-                  level: existuser.level,
-                  Id: existuser.Id,
-                  name: existuser.name,
-                  isstaff: existuser.isstaff
-                })
-              }
-              else{
-                alert("password does not match")
-              }
+          const existuser = filtered[0].data()
+
+          console.log(existuser)
+          console.log(existuser.passwords)
+          if (existuser.passwords === inputPassword) {
+            setuser({
+              level: existuser.level,
+              Id: existuser.Id,
+              name: existuser.name,
+              isstaff: existuser.isstaff
+            })
           }
+          else {
+            alert("password does not match")
+          }
+        }
       }
     }).catch((err) => {
-        console.log(err)
+      console.log(err)
     })
 
     setLoading(false);
   };
 
-  const handlePassword = () => {};
+  const handlePassword = () => { };
 
   function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -101,12 +100,12 @@ const Login = () => {
       {/* Form */}
       <Form className="form" onSubmit={handleSubmit}>
         {/* Header */}
+
         <img
-          className="img-thumbnail mx-auto d-block mb-2"
+          className="Logo"
           src={Logo}
           alt="logo"
         />
-        <div className="h4 mb-2 text-center">Sign In</div>
         {/* ALert */}
         {show ? (
           <Alert
@@ -152,14 +151,32 @@ const Login = () => {
             Logging In...
           </Button>
         )}
-        <div className="d-grid justify-content-end">
-          <Button
-            className="text-muted px-0"
-            variant="link"
-            onClick={handlePassword}
-          >
-            Forgot password?
-          </Button>
+        
+        <div className="d-grid justify-content-end"><Button
+          className="text-muted px-0"
+          variant="link"
+          onClick={handlePassword}
+        >
+          Forgot password?
+        </Button>
+
+        </div>
+
+
+        <div className="mt-2 text-center">
+          <p style={{ margin: 0 }}>
+            Dont have an account? {"  "}
+            <span
+              onClick={() => navigate("/register")}
+              style={{
+                textDecoration: "underline",
+                cursor: "pointer"
+              }}>
+              Register Here
+            </span>
+          </p>
+
+
         </div>
       </Form>
       {/* Footer */}
