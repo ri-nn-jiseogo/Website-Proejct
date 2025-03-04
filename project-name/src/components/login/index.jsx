@@ -26,8 +26,6 @@ const Login = () => {
   const setuser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
 
-  setMessage("")
-
   console.log(user)
 
   useEffect(() => {
@@ -44,49 +42,56 @@ const Login = () => {
 
 
   const handleSubmit = async (event) => {
+
+    setMessage("")
     event.preventDefault();
     setLoading(true);
     await delay(500);
     console.log(`Username :${inputUsername}, Password :${inputPassword}`);
-
-    getUsers().then((users) => {
-      console.log(users)
-      if (users) {
-        const filtered = users.docs.filter(element => {
-          console.log(element.id)
-          return element.id === inputUsername
-        });
-        console.log(filtered)
-        if (filtered.length === 0) {
-          setShow(true)
-          aleart("No such user")
-        }
-        else {
-          console.log("available")
-
-          const existuser = filtered[0].data()
-
-          console.log(existuser)
-          console.log(existuser.passwords)
-          if (existuser.passwords === inputPassword) {
-            setuser({
-              level: existuser.level,
-              Id: existuser.Id,
-              name: existuser.name,
-              isstaff: existuser.isstaff
-            })
+    if (inputPassword && inputUsername) {
+      getUsers().then((users) => {
+        console.log(users)
+        if (users) {
+          const filtered = users.docs.filter(element => {
+            console.log(element.id)
+            return element.id === inputUsername
+          });
+          console.log(filtered)
+          if (filtered.length === 0) {
+            setShow(true)
+            setMessage("No such user")
           }
           else {
-            alert("password does not match")
+            console.log("available")
+
+            const existuser = filtered[0].data()
+
+            console.log(existuser)
+            console.log(existuser.passwords)
+            if (existuser.passwords === inputPassword) {
+              setuser({
+                level: existuser.level,
+                Id: existuser.Id,
+                name: existuser.name,
+                isstaff: existuser.isstaff
+              })
+            }
+            else {
+              setMessage("password does not match")
+            }
           }
         }
-      }
-    }).catch((err) => {
-      console.log(err)
-    })
+      }).catch((err) => {
+        console.log(err)
+      })
 
-    setLoading(false);
-  };
+      setLoading(false);
+    }
+    else{
+      setMessage("One or more field missing")
+    }
+  }
+
 
   const handlePassword = () => { };
 
@@ -114,7 +119,7 @@ const Login = () => {
           {message}
         </div>}
 
-        {show ? (
+        {/* {show ? (
           <Alert
             className="mb-2"
             variant="danger"
@@ -125,7 +130,7 @@ const Login = () => {
           </Alert>
         ) : (
           <div />
-        )}
+        )} */}
         <Form.Group className="mb-2" controlId="username">
           <Form.Label>Username</Form.Label>
           <Form.Control
