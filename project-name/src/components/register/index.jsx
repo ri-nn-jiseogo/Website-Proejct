@@ -2,6 +2,8 @@ import React from 'react'
 import { Form, Modal } from "react-bootstrap"
 import { addUser, getUsers } from "../../firebase.js";
 
+import Logo from "../../assets/logo.png";
+
 
 const Register = () => {
 
@@ -66,7 +68,13 @@ const Register = () => {
                 <Form
                     className="form"
                     onSubmit={handdleSubmit}>
-                    <h3>Sign Up</h3>
+                        
+                    <img
+                              className="Logo"
+                              src={Logo}
+                              alt="logo"
+                            />
+
                     <div className="mb-3">
                         <label>User Id</label>
                         <input

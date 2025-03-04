@@ -30,3 +30,9 @@
     width: 24rem;
     max-width: 90%;
 }
+
+.Logo {
+    width: 20rem !important;
+    height: auto;
+    padding: 20px;
+  }
