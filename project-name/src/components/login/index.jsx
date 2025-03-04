@@ -16,6 +16,7 @@ import { getUsers } from "../../firebase.js";
 
 
 const Login = () => {
+  const [message, setMessage] = useState("");
   const [inputUsername, setInputUsername] = useState("");
   const [inputPassword, setInputPassword] = useState("");
 
@@ -24,6 +25,8 @@ const Login = () => {
   const navigate = useNavigate();
   const setuser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
+
+  setMessage("")
 
   console.log(user)
 
@@ -106,8 +109,11 @@ const Login = () => {
           src={Logo}
           alt="logo"
         />
-        
-        {/* ALert */}
+
+        {message && <div class="alert alert-warning" role="alert">
+          {message}
+        </div>}
+
         {show ? (
           <Alert
             className="mb-2"
