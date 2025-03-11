@@ -12,12 +12,12 @@ const Register = () => {
 
     const [message, setMessage] = useState("")
 
-    const hashPassword = async (password) => {
+    const hashPassword =  async (password) => {
         const salt = await bcrypt.genSalt(10); // generate salt
         return await bcrypt.hash(password, salt); // encrypt password with generated password
     };
 
-    const handdleSubmit = (e) => {
+    const handdleSubmit = async (e) => {
         e.preventDefault()
         setMessage("")
         const userid = e.target.elements.user.value
@@ -30,7 +30,7 @@ const Register = () => {
             console.log("all requireed ok")
             if (passwords.length >= 8) {
                 if (passwords === confirmpass) {
-                    getUsers().then((users) => {
+                    getUsers().then(async (users) => {
                         console.log(users)
                         if (users) {
                             const filtered = users.docs.filter(element => {
