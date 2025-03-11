@@ -4,10 +4,18 @@ import { addUser, getUsers } from "../../firebase.js";
 
 import Logo from "../../assets/logo.png";
 
+import bcrypt from 'bcryptjs';
+
+
 
 const Register = () => {
 
     const [message, setMessage] = useState("")
+
+    const hashPassword = async (password) => {
+        const salt = await bcrypt.genSalt(10); // generate salt
+        return await bcrypt.hash(password, salt); // encrypt password with generated password
+    };
 
     const handdleSubmit = (e) => {
         e.preventDefault()
@@ -34,11 +42,12 @@ const Register = () => {
                                 console.log("available!")
                                 addUser(userid, {
                                     Id: userid,
-                                    passwords: passwords,
+                                    passwords: hashPassword(passwords),
                                     firstname: firstname,
                                     lastname: lastname,
                                     isstaff: false
                                 })
+
                             }
                             else {
                                 console.log("not available")
@@ -129,7 +138,7 @@ const Register = () => {
                     />
                 </div>
                 <div className="d-grid">
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-primary" href="/login">
                         Sign Up
                     </button>
                 </div>
