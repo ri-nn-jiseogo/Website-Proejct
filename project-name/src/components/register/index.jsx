@@ -5,6 +5,7 @@ import { addUser, getUsers } from "../../firebase.js";
 import Logo from "../../assets/logo.png";
 
 import bcrypt from 'bcryptjs';
+import { Navigate } from 'react-router-dom';
 
 
 
@@ -41,6 +42,7 @@ const Register = () => {
                             if (filtered.length === 0) {
                                 console.log("available!")
                                 const hashedPassword = await hashPassword(passwords)
+                                console.log(hashedPassword)
                                 addUser(userid, {
                                     Id: userid,
                                     passwords: hashedPassword,
@@ -48,6 +50,7 @@ const Register = () => {
                                     lastname: lastname,
                                     isstaff: false
                                 })
+                                Navigate("/login")
 
                             }
                             else {

@@ -14,6 +14,8 @@ import { userState } from '../../models/userinfos'
 
 import { getUsers } from "../../firebase.js";
 
+import bcrypt from 'bcryptjs';
+
 
 const Login = () => {
   const [message, setMessage] = useState("");
@@ -68,17 +70,21 @@ const Login = () => {
 
             console.log(existuser)
             console.log(existuser.passwords)
-            if (existuser.passwords === inputPassword) {
-              setuser({
-                level: existuser.level,
-                Id: existuser.Id,
-                name: existuser.name,
-                isstaff: existuser.isstaff
-              })
-            }
-            else {
-              setMessage("password does not match")
-            }
+
+            bcrypt.compare(inputPassword, existuser.passwords, (err, isMatch) => {
+              if (err) {
+                setMessage("password does not match")
+              }
+              if (isMatch) {
+                setuser({
+                  level: existuser.level,
+                  Id: existuser.Id,
+                  name: existuser.name,
+                  isstaff: existuser.isstaff
+                })
+              }
+            })
+
           }
         }
       }).catch((err) => {
