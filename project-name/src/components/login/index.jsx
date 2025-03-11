@@ -31,6 +31,11 @@ const Login = () => {
   console.log(user)
 
   useEffect(() => {
+
+    const savedUsername = localStorage.getItem("rememberedUsername");
+    const savedPassword = localStorage.getItem("rememberedPassword");
+    setRememberMe(true);
+
     if (user?.Id !== undefined) {
       console.log('user exists?')
       if (user?.isstaff) {
@@ -41,6 +46,11 @@ const Login = () => {
       }
     }
   }, [navigate, user])
+
+  if(rememberMe){
+    localStorage.setItem("rememberedUsername", inputUsername);
+    localStorage.setItem("rememberedPassword", inputPassword);
+  }
 
 
   const handleSubmit = async (event) => {
