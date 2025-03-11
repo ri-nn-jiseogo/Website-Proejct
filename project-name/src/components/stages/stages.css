@@ -1,6 +1,7 @@
 .stages-main {
     display: flex;
     height: 100vh;
+    background-image: url("/src/assets/project_background.png")
 }
 
 .score {
@@ -30,3 +31,4 @@
 .path {
     width: 50%;
 }
+
