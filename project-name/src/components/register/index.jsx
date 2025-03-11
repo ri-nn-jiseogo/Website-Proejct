@@ -40,9 +40,10 @@ const Register = () => {
                             console.log(filtered)
                             if (filtered.length === 0) {
                                 console.log("available!")
+                                const hashedPassword = await hashPassword(passwords)
                                 addUser(userid, {
                                     Id: userid,
-                                    passwords: hashPassword(passwords),
+                                    passwords: hashedPassword,
                                     firstname: firstname,
                                     lastname: lastname,
                                     isstaff: false
