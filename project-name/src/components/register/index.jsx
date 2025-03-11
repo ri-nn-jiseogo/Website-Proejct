@@ -5,13 +5,15 @@ import { addUser, getUsers } from "../../firebase.js";
 import Logo from "../../assets/logo.png";
 
 import bcrypt from 'bcryptjs';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const Register = () => {
 
     const [message, setMessage] = useState("")
+
+    const navigate = useNavigate();
 
     const hashPassword =  async (password) => {
         const salt = await bcrypt.genSalt(10); // generate salt
@@ -50,7 +52,7 @@ const Register = () => {
                                     lastname: lastname,
                                     isstaff: false
                                 })
-                                Navigate("/login")
+                                navigate("/login")
 
                             }
                             else {
