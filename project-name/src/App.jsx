@@ -11,6 +11,7 @@ import Editor from './components/editor'
 import Sidebar from './components/sidebar'
 import Stages from './components/stages'
 import Learning from './components/learning'
+import GPT from './components/GPT'
 
 import "./fonts/Momentz.ttf";
 
@@ -84,6 +85,7 @@ const Router = () => {
     <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landingpage />} />
+          <Route path="/gpt" element={<GPT/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/user/*" element={<Headfoot />} />
           <Route path="/register" element={<Register />}/>
