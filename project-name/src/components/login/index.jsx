@@ -28,7 +28,7 @@ const Login = () => {
   const setuser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
 
-  console.log(user);
+  // console.log(user);
 
   useEffect(() => {
     // 저장된 로그인 정보 불러오기
@@ -43,7 +43,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user?.Id !== undefined) {
-      console.log("user exists?");
+      // console.log("user exists?");
       if (user?.isstaff) {
         navigate("/user/admin");
       } else {
@@ -57,32 +57,29 @@ const Login = () => {
     event.preventDefault();
     setLoading(true);
     await delay(500);
-    console.log(`Username: ${inputUsername}, Password: ${inputPassword}`);
+    // console.log(`Username: ${inputUsername}, Password: ${inputPassword}`);
 
     if (inputPassword && inputUsername) {
       getUsers()
         .then((users) => {
-          console.log(users);
+          // console.log(users);
           if (users) {
             const filtered = users.docs.filter((element) => {
-              console.log(element.id);
+              // console.log(element.id);
               return element.id === inputUsername;
             });
-            console.log(filtered);
+            // console.log(filtered);
             if (filtered.length === 0) {
-              setShow(true);
               setMessage("No such user");
+              setShow(true);
             } else {
-              console.log("available");
+              // console.log("available");
 
               const existuser = filtered[0].data();
 
-              console.log(existuser);
-              console.log(existuser.passwords);
-
               bcrypt.compare(inputPassword, existuser.passwords, (err, isMatch) => {
-                if (err) {
-                  setMessage("password does not match");
+                if (err){
+                  setMessage("error occured Please try again")
                 }
                 if (isMatch) {
                   setuser({
@@ -100,10 +97,12 @@ const Login = () => {
                     // 체크 해제 시 기존 값 삭제
                     localStorage.removeItem("savedUsername");
                     localStorage.removeItem("savedPassword");
-                  }
-
-                  
+                  }                  
                 }
+                else {
+                  setMessage("password does not match");
+                }
+
 
 
               });
@@ -111,7 +110,7 @@ const Login = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
 
       setLoading(false);

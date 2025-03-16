@@ -10,6 +10,7 @@ import Register from './components/register'
 import Editor from './components/editor'
 import Sidebar from './components/sidebar'
 import Stages from './components/stages'
+import Learning from './components/learning'
 
 import "./fonts/Momentz.ttf";
 
@@ -51,6 +52,7 @@ function Headfoot(){
         <div className = 'Content'>
           <Routes>
             <Route path="/" element={<Stages/>} />
+            <Route path="/learning" element={<Learning/>} />
             <Route path="/lecture" element={<Lecture/>} />
             <Route path="/admin" element={<div><b>This is admin</b> </div>} />
           </Routes>
