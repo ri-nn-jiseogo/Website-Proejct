@@ -45,7 +45,7 @@
 }
 
 .Sidebar ul li a:hover {
-    background-color: #34495e;
-    padding-left: 10px;
-    transition: 0.3s;
+    transform: translateY(-5px);
+    transition: width 0.3s ease;
 }
+
