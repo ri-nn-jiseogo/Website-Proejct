@@ -11,19 +11,76 @@ import { Button } from "react-bootstrap";
 
 const learning = () => {
 
-
-
     return (
         <div>
             <div className="TextBox">
-                <div className ="flex-container" class="flex-container">
-                    <h1>Missons</h1>
-                    <button>?</button>
+                <div className ="flex-container">
+                    <h1 className="missons">Missons</h1>
+                    <button className="desc-button">?</button>
                 </div>
                 <p className="stage-desc">In the game, you are allowed to participate in up to 15 missions at a time. <br /> If you wish to join more missions, you must wait for a cooldown period before you can continue.</p>
             </div>
-            <div>
-
+            <div className = "chapter-container">
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 1</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 2</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 3</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 4</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 5</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 6</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 7</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 8</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 9</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
+                <div className = "Chapter">
+                    <h1 className="chapter-title">Lesson 10</h1>
+                    <div className="chapter-desc">
+                        <p>Array</p>
+                    </div>
+                </div>
             </div>
         </div>
     )
