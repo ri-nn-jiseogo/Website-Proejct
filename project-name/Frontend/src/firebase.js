@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import {doc, getDoc, getDocs, getFirestore, collection, setDoc} from 'firebase/firestore/lite'
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDJmZbFJc5l5eET0T0JgjIWPIm-UaeaVdQ",
-  authDomain: "websiteproject-cb618.firebaseapp.com",
-  projectId: "websiteproject-cb618",
-  storageBucket: "websiteproject-cb618.firebasestorage.app",
-  messagingSenderId: "924450092972",
-  appId: "1:924450092972:web:d15a42a34d2feeb78aac09",
-  measurementId: "G-E9TKTWG5GQ"
+  apiKey: "AIzaSyBElhtp4yWZhKq7T99VO2v7d7qaeZy4lkM",
+  authDomain: "websiteproject2-fd659.firebaseapp.com",
+  projectId: "websiteproject2-fd659",
+  storageBucket: "websiteproject2-fd659.firebasestorage.app",
+  messagingSenderId: "97655553683",
+  appId: "1:97655553683:web:d103fd9c477f3077199766",
+  measurementId: "G-YBG0KNX7KY"
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)

@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../../src/styles.css";
+import "../../styles.css";
 
 import React, { useEffect, useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
@@ -10,28 +10,23 @@ import Logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { userState } from "../../models/userinfos";
+import { userState } from "../../models/userinfos/index.js";
 
 import { getUsers } from "../../firebase.js";
-
-import bcrypt from "bcryptjs";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const Login = () => {
   const [message, setMessage] = useState("");
   const [inputUsername, setInputUsername] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false); // Remember Me 상태 추가
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const setuser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
 
-  // console.log(user);
-
   useEffect(() => {
-    // 저장된 로그인 정보 불러오기
     const savedUsername = localStorage.getItem("savedUsername");
     const savedPassword = localStorage.getItem("savedPassword");
     if (savedUsername && savedPassword) {
@@ -43,7 +38,6 @@ const Login = () => {
 
   useEffect(() => {
     if (user?.Id !== undefined) {
-      // console.log("user exists?");
       if (user?.isstaff) {
         navigate("/user/admin");
       } else {
@@ -53,73 +47,61 @@ const Login = () => {
   }, [navigate, user]);
 
   const handleSubmit = async (event) => {
-    setMessage("");
     event.preventDefault();
+    setMessage("");
     setLoading(true);
     await delay(500);
-    // console.log(`Username: ${inputUsername}, Password: ${inputPassword}`);
 
-    if (inputPassword && inputUsername) {
-      getUsers()
-        .then((users) => {
-          // console.log(users);
-          if (users) {
-            const filtered = users.docs.filter((element) => {
-              // console.log(element.id);
-              return element.id === inputUsername;
-            });
-            // console.log(filtered);
-            if (filtered.length === 0) {
-              setMessage("No such user");
-              setShow(true);
-            } else {
-              // console.log("available");
-
-              const existuser = filtered[0].data();
-
-              bcrypt.compare(inputPassword, existuser.passwords, (err, isMatch) => {
-                if (err){
-                  setMessage("error occured Please try again")
-                }
-                if (isMatch) {
-                  setuser({
-                    level: existuser.level,
-                    Id: existuser.Id,
-                    name: existuser.name,
-                    isstaff: existuser.isstaff,
-                  });
-
-                  // Remember Me 체크 시 로그인 정보 저장
-                  if (rememberMe) {
-                    localStorage.setItem("savedUsername", inputUsername);
-                    localStorage.setItem("savedPassword", inputPassword);
-                  } else {
-                    // 체크 해제 시 기존 값 삭제
-                    localStorage.removeItem("savedUsername");
-                    localStorage.removeItem("savedPassword");
-                  }                  
-                }
-                else {
-                  setMessage("password does not match");
-                }
-
-
-
-              });
-            }
-          }
-        })
-        .catch((err) => {
-          // console.log(err);
-        });
-
+    if (!inputUsername || !inputPassword) {
+      setMessage("One or more fields missing");
       setLoading(false);
-    } else {
-      setMessage("One or more field missing");
+      return;
     }
-  };
 
-  const handlePassword = () => {};
+    try {
+      const users = await getUsers();
+      const userDoc = users.docs.find(doc => doc.id === inputUsername);
+
+      if (!userDoc) {
+        setMessage("No such user ID");
+        setLoading(false);
+        return;
+      }
+
+      const userData = userDoc.data();
+      const email = userData.email;
+
+      const auth = getAuth();
+      const userCredential = await signInWithEmailAndPassword(auth, email, inputPassword);
+      const authedUser = userCredential.user;
+
+      // 로그인 성공 후 상태 업데이트
+      setuser({
+        level: userData.level,
+        Id: userData.Id,
+        name: userData.firstname + " " + userData.lastname,
+        isstaff: userData.isstaff,
+      });
+
+      // Remember Me 저장
+      if (rememberMe) {
+        localStorage.setItem("savedUsername", inputUsername);
+        localStorage.setItem("savedPassword", inputPassword);
+      } else {
+        localStorage.removeItem("savedUsername");
+        localStorage.removeItem("savedPassword");
+      }
+    } catch (error) {
+      if (error.code === "auth/invalid-credential") {
+        setMessage("password is incorrect.");
+      } else {
+        console.error(error);
+        setMessage("Login failed: " + error.message);
+      }
+    }
+
+    setLoading(false);
+  };
 
   function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -127,22 +109,19 @@ const Login = () => {
 
   return (
     <div className="sign-in__wrapper">
-      {/* Overlay */}
       <div className="sign-in__backdrop"></div>
-      {/* Form */}
-      <Form className="form" onSubmit={handleSubmit}>
-        {/* Header */}
 
+      <Form className="form" onSubmit={handleSubmit}>
         <img className="Logo" src={Logo} alt="logo" />
 
-        {message && <div className="alert alert-warning" role="alert">{message}</div>}
+        {message && <Alert variant="warning">{message}</Alert>}
 
         <Form.Group className="mb-2" controlId="username">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>User ID</Form.Label>
           <Form.Control
             type="text"
             value={inputUsername}
-            placeholder="Username"
+            placeholder="User ID"
             onChange={(e) => setInputUsername(e.target.value)}
           />
         </Form.Group>
@@ -156,7 +135,6 @@ const Login = () => {
           />
         </Form.Group>
         <Form.Group className="mb-2" controlId="checkbox">
-          {/* Remember Me 체크박스 추가 */}
           <Form.Check
             type="checkbox"
             label="Remember me"
@@ -164,8 +142,8 @@ const Login = () => {
             onChange={(e) => setRememberMe(e.target.checked)}
           />
         </Form.Group>
-        <Button className="w-100" variant="primary" type="submit">
-          Log In
+        <Button className="w-100" variant="primary" type="submit" disabled={loading}>
+          {loading ? "Logging in..." : "Log In"}
         </Button>
 
         <div className="mt-2 text-center">
@@ -183,7 +161,6 @@ const Login = () => {
           </p>
         </div>
       </Form>
-      {/* Footer */}
     </div>
   );
 };

@@ -2,16 +2,16 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 
-import Login from './components/login'
-import Dashboard from './components/dashboard'
-import Lecture from './components/lecture'
-import Header from './components/header'
-import Register from './components/register'
-import Editor from './components/editor'
-import Sidebar from './components/sidebar'
-import Stages from './components/stages'
-import Learning from './components/learning'
-import GPT from './components/GPT'
+import Login from './components/login/index.jsx'
+import Dashboard from './components/dashboard/index.jsx'
+import Lecture from './components/lecture/index.jsx'
+import Header from './components/header/index.jsx'
+import Register from './components/register/index.jsx'
+import Editor from './components/editor/index.jsx'
+import Sidebar from './components/sidebar/index.jsx'
+import Stages from './components/stages/index.jsx'
+import Learning from './components/learning/index.jsx'
+import GPT from './components/GPT/index.jsx'
 
 import "./fonts/Momentz.ttf";
 
@@ -19,7 +19,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
 
-import { userState } from './models/userinfos'
+import { userState } from './models/userinfos/index.js'
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 
 import {addComment, addUser, getComments} from "./firebase.js";

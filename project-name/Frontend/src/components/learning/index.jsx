@@ -1,7 +1,7 @@
 import { useState } from "react"
 import "./learning.css"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { userState } from '../../models/userinfos'
+import { userState } from '../../models/userinfos/index.js'
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 
 
