@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 src/components/GPT/*
+
+app.py
+firebase_key.json
