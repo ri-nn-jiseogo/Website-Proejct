@@ -1,0 +1,22 @@
+.content {
+    margin: 40px;
+}
+
+.flex-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 0px;
+}
+
+
+.missons {
+    font-family: 'Slackey', cursive;
+    margin: 0;
+    /* Ensure no extra margin */
+}
+
+.stage-desc {
+    font-size: 16px;
+    text-align: left;
+}
