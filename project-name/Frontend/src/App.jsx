@@ -56,6 +56,7 @@ function Headfoot(){
             <Route path="/" element={<Stages/>} />
             <Route path="/learning" element={<Learning/>} />
             <Route path="/lecture" element={<Lecture/>} />
+            <Route path="/learning/lesson1" element={<Lesson1/>} />
             <Route path="/admin" element={<div><b>This is admin</b> </div>} />
           </Routes>
         </div>
