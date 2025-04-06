@@ -12,6 +12,7 @@ import Sidebar from './components/sidebar/index.jsx'
 import Stages from './components/stages/index.jsx'
 import Learning from './components/learning/index.jsx'
 import GPT from './components/GPT/index.jsx'
+import Lesson1 from './components/learning/index.jsx'
 
 import "./fonts/Momentz.ttf";
 

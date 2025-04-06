@@ -12,7 +12,7 @@ import { Button } from "react-bootstrap";
 const learning = () => {
 
     return (
-        <div>
+        <div className="learning">
             <div className="TextBox">
                 <div className ="flex-container">
                     <h1 className="missons">Missons</h1>
@@ -65,18 +65,6 @@ const learning = () => {
                 </div>
                 <div className = "Chapter">
                     <h1 className="chapter-title">Lesson 8</h1>
-                    <div className="chapter-desc">
-                        <p>Array</p>
-                    </div>
-                </div>
-                <div className = "Chapter">
-                    <h1 className="chapter-title">Lesson 9</h1>
-                    <div className="chapter-desc">
-                        <p>Array</p>
-                    </div>
-                </div>
-                <div className = "Chapter">
-                    <h1 className="chapter-title">Lesson 10</h1>
                     <div className="chapter-desc">
                         <p>Array</p>
                     </div>

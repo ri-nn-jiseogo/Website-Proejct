@@ -1,3 +1,7 @@
+.learning{
+    margin: 30px
+}
+
 .flex-container{
     display: flex;
     gap: 20px;
@@ -36,14 +40,14 @@
     gap: 20px;
     justify-content: start;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .Chapter{
     margin: 0; /* Ensure no extra margin */
     background-color: #65C726;
     border-radius: 70px;
-    width: 240px;
+    width: 250px;
     height: 120px;
     color: white;
     box-shadow: 3px 3px rgba(0,0,0,0.3);
