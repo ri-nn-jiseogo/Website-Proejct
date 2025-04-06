@@ -12,7 +12,8 @@ import Sidebar from './components/sidebar/index.jsx'
 import Stages from './components/stages/index.jsx'
 import Learning from './components/learning/index.jsx'
 import GPT from './components/GPT/index.jsx'
-import Lesson1 from './components/learning/index.jsx'
+import Lesson1 from './components/lesson1/index.jsx'
+import Submission from './components/submission/index.jsx'
 
 import "./fonts/Momentz.ttf";
 
@@ -57,6 +58,7 @@ function Headfoot(){
             <Route path="/learning" element={<Learning/>} />
             <Route path="/lecture" element={<Lecture/>} />
             <Route path="/learning/lesson1" element={<Lesson1/>} />
+            <Route path="/learning/lesson1/submission" element={<Submission/>} />
             <Route path="/admin" element={<div><b>This is admin</b> </div>} />
           </Routes>
         </div>
