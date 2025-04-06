@@ -23,7 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 
-src/components/GPT/index.jsx
+Frontend/src/components/GPT/index.jsx
 
 app.py
 firebase_key.json
