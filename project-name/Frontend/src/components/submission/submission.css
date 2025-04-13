@@ -78,6 +78,7 @@
     font-size: 14px !important;
     border-radius: 8px;
     overflow: hidden;
+    margin-top: 10px;
 }
 
 /* code mirror css */
@@ -87,12 +88,13 @@
 
 .submission-buttons {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: end;
+        align-items: center;
     margin-top: auto;
 }
 
 .right-buttons {
+
     display: flex;
     gap: 10px;
 }

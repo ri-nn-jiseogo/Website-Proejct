@@ -14,14 +14,14 @@ const Submission = () => {
 
   // "포기" 버튼
   const handleGiveUp = () => {
-    if (window.confirm("포기하고 다음 문제로 이동할까요?")) {
+    if (window.confirm("Do you want to skip question?")) {
       navigate("/user/learning/lesson1/next");
     }
   };
 
   // "제출" 버튼
   const handleSubmit = async () => {
-    setResponseMsg("채점 중...");
+    setResponseMsg("Grading...");
     try {
       const res = await fetch("http://localhost:5000/api/submit-code", {
         method: "POST",
@@ -36,18 +36,18 @@ const Submission = () => {
 
       const data = await res.json();
       if (data.result === "Correct") {
-        setResponseMsg("정답입니다!");
+        setResponseMsg("Correct!");
       } else if (data.result === "compile_error") {
-        setResponseMsg("컴파일 에러:\n" + data.message);
+        setResponseMsg("Compile Error:\n" + data.message);
       } else if (data.result === "Incorrect") {
-        setResponseMsg("틀렸습니다.");
+        setResponseMsg("Incorrect.");
       } else {
         // 기타 에러 (runtime_error 등)
-        setResponseMsg(`에러: ${JSON.stringify(data, null, 2)}`);
+        setResponseMsg(`Error: ${JSON.stringify(data, null, 2)}`);
       }
     } catch (error) {
       console.error(error);
-      setResponseMsg("서버 통신 오류가 발생했습니다.");
+      setResponseMsg("Server Disconnected.");
     }
   };
 
@@ -96,7 +96,7 @@ const Submission = () => {
             </div>
           </div>
 
-          {/* 서버 응답(채점 결과) 표시 영역 */}
+
           <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
             <strong>결과:</strong>
             <div>{responseMsg}</div>
