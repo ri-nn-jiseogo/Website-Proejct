@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@codemirror/lang-java": "^6.0.1",
+    "@uiw/codemirror-theme-dracula": "^4.23.10",
+    "@uiw/react-codemirror": "^4.23.10"
+  }
+}

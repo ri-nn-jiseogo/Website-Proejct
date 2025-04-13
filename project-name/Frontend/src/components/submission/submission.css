@@ -9,11 +9,9 @@
     padding: 0px;
 }
 
-
 .missons {
     font-family: 'Slackey', cursive;
     margin: 0;
-    /* Ensure no extra margin */
 }
 
 .stage-desc {
@@ -22,70 +20,105 @@
 }
 
 
-.chapter-container{
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: start;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.Chapter{
-    margin: 0; /* Ensure no extra margin */
-    background-color: #65C726;
-    border-radius: 70px;
-    width: 250px;
-    height: 120px;
-    color: white;
-    box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
-}
-
-.title{
-    font-size: 25px;
-    padding-top: 20px;
-    font-family: 'Slackey', cursive;
-    text-align: start;
-}
-
-.submission-container{
-    width: 100%;
-    border-radius: 15px;
+.submission-container {
     background-color: rgba(240, 240, 240, 0.9);
+    border-radius: 15px;
+    padding: 20px;
     display: flex;
-    justify-content: space-evenly;
-}
-
-.mission{
+    justify-content: space-between;
+    gap: 20px;
     width: 100%;
-    margin-left: 30px;
+    box-sizing: border-box;
 }
 
-.code{
-    width: 100%;
-    margin-left: 30px;
-    justify-content: start;
+.mission {
+    width: 40%;
+    min-width: 300px;
 }
 
-.mission-desc{
+.mission-desc {
     width: 90%;
     background-color: rgba(67, 67, 67, 1);
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-.mission-content{
+.mission-content {
     color: white;
-    padding:10px;
-    padding-left: 20px;
+    text-align: start;
+    margin: 0;
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    min-width: 400px;
+}
+
+.code {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 25px;
+    font-family: 'Slackey', cursive;
+    margin: 0;
+    padding-top: 10px;
     text-align: start;
 }
 
-.code-content{
-    width: 90%;
-    color: white;
-    padding:10px;
-    padding-left: 20px;
-    text-align: start;
-    background-color: rgba(67, 67, 67, 1);
-    margin: 0px;
-    border: 0px;
+
+/* code mirror css */
+.code-editor .cm-editor {
+    font-family: "Fira Code", monospace !important;
+    font-size: 14px !important;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* code mirror css */
+.code-editor .cm-editor .cm-content {
+    text-align: left !important;
+}
+
+.submission-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.right-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-back {
+    background-color: #ccc;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-giveup {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
 }

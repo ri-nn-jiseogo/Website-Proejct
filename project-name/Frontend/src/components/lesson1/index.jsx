@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 const lesson1 = () => {
     return (
         <div>
-            <div clssName="content">
+            <div className="content">
                 <div className="TextBox">
                     <div className="flex-container">
                         <h1 className="missons">Missons</h1>
