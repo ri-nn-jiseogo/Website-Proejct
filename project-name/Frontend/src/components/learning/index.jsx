@@ -23,7 +23,7 @@ const learning = () => {
             </div>
             <div className="chapter-container">
                 <div className="Chapter">
-                <Link to="/user/learning/lesson1">
+                <Link to="/user/learning/lesson1" className="chapter-link">
                     <h1 className="chapter-title">Lesson 1</h1>
                     <div className="chapter-desc">
                         <p>Primitive Types</p>

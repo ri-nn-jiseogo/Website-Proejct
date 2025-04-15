@@ -9,6 +9,10 @@
     padding: 0px;
 }
 
+.Topbox{
+    display: flex;
+}
+
 
 .missons {
     font-family: 'Slackey', cursive;
@@ -19,16 +23,25 @@
 .stage-desc {
     font-size: 16px;
     text-align: left;
+    font-family: 'Oxanium';
 }
 
 
-.chapter-container{
-    width: 100%;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: start;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+.mission-container{
+    background-color: rgba(228, 228, 228, 0.9);
+    height: 500px;
+    border-radius: 20px;
+    box-shadow: 3px 3px 2px rgba(0,0,0,0.1);
+}
+
+.chapter-link{
+    text-decoration: none;
+    color: white;
+}
+
+.chapter-link .hover{
+    text-decoration: none;
+    color: white;
 }
 
 .Chapter{
@@ -45,4 +58,38 @@
     font-size: 25px;
     padding-top: 20px;
     font-family: 'Slackey', cursive;
+}
+
+.mission-title{
+    font-size: 25px;
+    padding-top: 25px;
+    padding-left: 25px;
+    padding-bottom: 15px;
+    font-family: 'Slackey', cursive;
+    text-align: start;
+    
+}
+
+.missions{
+    display:grid;
+    padding-left: 25px;
+    grid-template-columns: 0.7fr 0.7fr 0.7fr 1fr 1fr 0.7fr;
+    padding-right: 25px
+}
+
+.section-name{
+    font-family: 'Oxanium';
+    font-size: 18px;
+    text-align: start;
+    padding: 0px;
+    align-items: center;
+    place-items: center;
+}
+
+.Review-button{
+    width:100%;
+    height: 30px;
+    text-align: center;
+    padding: 0px;
+    border-radius: 5px;
 }

@@ -98,8 +98,7 @@ const Submission = () => {
 
 
           <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
-            <strong>결과:</strong>
-            <div>{responseMsg}</div>
+            <strong>Result: {responseMsg}</strong>
           </div>
         </div>
       </div>
