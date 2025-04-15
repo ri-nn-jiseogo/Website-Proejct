@@ -23,7 +23,7 @@ const Submission = () => {
   const handleSubmit = async () => {
     setResponseMsg("Grading...");
     try {
-      const res = await fetch("http://localhost:5000/api/submit-code", {
+      const res = await fetch("http://localhost:5050/api/submit-code", {
         method: "POST",
         headers: {                                      
           "Content-Type": "application/json",
