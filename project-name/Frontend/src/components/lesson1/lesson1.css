@@ -74,7 +74,8 @@
     display:grid;
     padding-left: 25px;
     grid-template-columns: 0.7fr 0.7fr 0.7fr 1fr 1fr 0.7fr;
-    padding-right: 25px
+    padding-right: 25px;
+    vertical-align: middle;
 }
 
 .section-name{
@@ -82,8 +83,6 @@
     font-size: 18px;
     text-align: start;
     padding: 0px;
-    align-items: center;
-    place-items: center;
 }
 
 .Review-button{
