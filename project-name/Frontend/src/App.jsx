@@ -14,6 +14,7 @@ import Learning from './components/learning/index.jsx'
 import GPT from './components/GPT/index.jsx'
 import Lesson1 from './components/lesson1/index.jsx'
 import Submission from './components/submission/index.jsx'
+import Mypage from './components/mypage/index.jsx'
 
 import "./fonts/Momentz.ttf";
 
@@ -60,6 +61,7 @@ function Headfoot(){
             <Route path="/learning/lesson1" element={<Lesson1/>} />
             <Route path="/learning/lesson1/submission" element={<Submission/>} />
             <Route path="/admin" element={<div><b>This is admin</b> </div>} />
+            <Route path="/mypage" element={<Mypage/>} />
           </Routes>
         </div>
         
