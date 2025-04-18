@@ -12,6 +12,9 @@ const Submission = () => {
   const [userCode, setUserCode] = useState(`public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}`);
   const [responseMsg, setResponseMsg] = useState("");
 
+
+  const handleBack = () => navigate(-1);
+
   // "포기" 버튼
   const handleGiveUp = () => {
     if (window.confirm("Do you want to skip question?")) {
@@ -25,7 +28,7 @@ const Submission = () => {
     try {
       const res = await fetch("http://localhost:5050/api/submit-code", {
         method: "POST",
-        headers: {                                      
+        headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -51,6 +54,7 @@ const Submission = () => {
     }
   };
 
+
   return (
     <div className="content">
       <div className="TextBox">
@@ -65,19 +69,21 @@ const Submission = () => {
       </div>
 
       <div className="submission-container">
-        <div className="mission">
+        <section className="mission">
           <h1 className="title">Mission</h1>
           <div className="mission-desc">
             <p className="mission-content">This is a mission.</p>
           </div>
-        </div>
 
-        <div className="right-panel">
+          <button className="btn-back" onClick={handleBack}>Back</button>
+        </section>
+
+        <section className="right-panel">
           <div className="code">
             <h1 className="title">Code</h1>
             <CodeMirror
               value={userCode}
-              height="300px"
+              height="100%"
               theme={dracula}
               extensions={[java()]}
               className="code-editor"
@@ -85,22 +91,19 @@ const Submission = () => {
             />
           </div>
 
-          <div className="submission-buttons">
-            <div className="right-buttons">
-              <button className="btn-giveup" onClick={handleGiveUp}>
-                Give Up
-              </button>
-              <button className="btn-submit" onClick={handleSubmit}>
-                Submit
-              </button>
+          <div className="right-buttons">
+            <button className="btn-giveup" onClick={handleGiveUp}>
+              GIVE UP
+            </button>
+            <button className="btn-submit" onClick={handleSubmit}>
+              CHECK!
+            </button>
+            <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
+              <strong>Result: {responseMsg}</strong>
             </div>
           </div>
+        </section>
 
-
-          <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
-            <strong>Result: {responseMsg}</strong>
-          </div>
-        </div>
       </div>
     </div>
   );

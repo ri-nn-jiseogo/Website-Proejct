@@ -34,6 +34,8 @@
 .mission {
     width: 40%;
     min-width: 300px;
+    display: flex;
+    flex-direction: column;
 }
 
 .mission-desc {
@@ -41,8 +43,10 @@
     background-color: rgba(67, 67, 67, 1);
     border-radius: 5px;
     margin-top: 10px;
+    margin-bottom: 20px;
     padding: 10px;
     box-sizing: border-box;
+    flex: 1;
 }
 
 .mission-content {
@@ -89,38 +93,52 @@
 .submission-buttons {
     display: flex;
     justify-content: end;
-        align-items: center;
+    align-items: center;
     margin-top: auto;
 }
 
 .right-buttons {
-
     display: flex;
     gap: 10px;
+    font-family: 'Slackey', cursive;
 }
 
+
+.btn-back,
+.btn-giveup,
+.btn-submit {
+    padding: 12px 32px;
+    border: none;
+    border-radius: 12px;         
+    font-family: 'Slackey', cursive;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out; 
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+    align-self: flex-start;   
+}
+
+/* 각각 개별 색상 */
 .btn-back {
     background-color: #ccc;
     border: none;
-    padding: 10px 16px;
-    border-radius: 4px;
-    cursor: pointer;
+    margin-left: 15px;
 }
-
 .btn-giveup {
     background-color: #f44336;
     color: #fff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
 .btn-submit {
     background-color: #4caf50;
     color: #fff;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 4px;
-    cursor: pointer;
+}
+
+
+.btn-back:hover,
+.btn-giveup:hover,
+.btn-submit:hover {
+    transform: translateY(-2px);  
+    box-shadow: 2px 8px 15px rgba(0, 0, 0, 0.15);
+    opacity: 0.95;
 }
