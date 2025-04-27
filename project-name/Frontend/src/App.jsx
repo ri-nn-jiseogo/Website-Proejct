@@ -1,111 +1,81 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
-import Login from './components/login/index.jsx'
-import Dashboard from './components/dashboard/index.jsx'
-import Lecture from './components/lecture/index.jsx'
-import Header from './components/header/index.jsx'
-import Register from './components/register/index.jsx'
-import Editor from './components/editor/index.jsx'
-import Sidebar from './components/sidebar/index.jsx'
-import Stages from './components/stages/index.jsx'
-import Learning from './components/learning/index.jsx'
-import GPT from './components/GPT/index.jsx'
-import Lesson1 from './components/lesson1/index.jsx'
-import Submission from './components/submission/index.jsx'
-import Mypage from './components/mypage/index.jsx'
-
-import "./fonts/Momentz.ttf";
-
-import './App.css'
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom'
-import { Button } from 'react-bootstrap';
-
-import { userState } from './models/userinfos/index.js'
+// src/App.jsx
+import React, { useEffect } from 'react';
+import './App.css';
+import './fonts/Momentz.ttf';
+import { BrowserRouter, Routes, Route, useNavigate, Outlet } from 'react-router-dom';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { userState } from './models/userinfos/index.js';
+import { Button } from 'react-bootstrap';
+import { getComments } from './firebase.js';
+import Login from './components/login';
+import Register from './components/register';
+import GPT from './components/GPT';
+import Editor from './components/editor';
+import Sidebar from './components/sidebar';
+import Stages from './components/stages';
+import Learning from './components/learning';
+import Lecture from './components/lecture';
+import LessonPage from './components/LessonPage'; 
+import Submission from './components/submission';
+import Mypage from './components/mypage';
 
-import {addComment, addUser, getComments} from "./firebase.js";
-
-
-function DetailCardPage(){
-  return <p>this is detailcard</p>
+function Landingpage() {
+  const navigate = useNavigate();
+  return (
+    <div className="landing">
+      <Button onClick={() => navigate('/login')}>Log In</Button>
+    </div>
+  );
 }
 
-function Headfoot(){
-  const setuser = useSetRecoilState(userState);
+function AdminPage() {
+  return <div><b>This is admin</b></div>;
+}
+
+function Headfoot() {
+  const navigate = useNavigate();
+  const setUser = useSetRecoilState(userState);
   const user = useRecoilValue(userState);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if(user?.Id === undefined){
-      console.log('user not logged in')
-      navigate('/login')
+    if (!user?.Id) {
+      navigate('/login');
     }
-  }, [user, navigate])
+  }, [user, navigate]);
 
   useEffect(() => {
-    getComments().then(res => {
-      console.log('comments :', res)
-    })
-  }, [])
-  
+    getComments().then(res => console.log('comments:', res));
+  }, []);
+
   return (
-      <div className='Menu'>
-        <Sidebar></Sidebar>
-        <div className = 'Content'>
-          <Routes>
-            <Route path="/" element={<Stages/>} />
-            <Route path="/learning" element={<Learning/>} />
-            <Route path="/lecture" element={<Lecture/>} />
-            <Route path="/learning/lesson1" element={<Lesson1/>} />
-            <Route path="/learning/lesson1/submission" element={<Submission/>} />
-            <Route path="/admin" element={<div><b>This is admin</b> </div>} />
-            <Route path="/mypage" element={<Mypage/>} />
-          </Routes>
-        </div>
-        
+    <div className="Menu">
+      <Sidebar />
+      <div className="Content">
+        <Outlet />
       </div>
-  )
+    </div>
+  );
 }
 
-function Landingpage(){
-  const navigate = useNavigate();
-
-  const handlelogin = () => {
-    navigate('/login')
-  }
-  return (
-  <div>
-    <Button
-      onClick={handlelogin}
-    >
-      Log In
-    </Button>
-  </div>)
-}
-
-
-const Router = () => {
+export default function App() {
   return (
     <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landingpage />} />
-          <Route path="/gpt" element={<GPT/>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/user/*" element={<Headfoot />} />
-          <Route path="/register" element={<Register />}/>
-          <Route path="/editor" element={<Editor />}>
-          </Route>
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Landingpage />} />
+        <Route path="/gpt" element={<GPT />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/editor" element={<Editor />} />
+        <Route path="/user" element={<Headfoot />}>
+          <Route index element={<Stages />} />
+          <Route path="learning" element={<Learning />} />
+          <Route path="learning/:lesson" element={<LessonPage />} />
+          <Route path="learning/:lesson/submission" element={<Submission />} />
+          <Route path="lecture" element={<Lecture />} />
+          <Route path="mypage" element={<Mypage />} />
+          <Route path="admin" element={<AdminPage />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
-};
-
-
-function App() {
-  const [count, setCount] = useState(0)
-  return <Router  />
 }
-
-export default App

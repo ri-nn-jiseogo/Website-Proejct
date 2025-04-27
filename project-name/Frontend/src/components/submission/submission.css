@@ -9,10 +9,6 @@
     padding: 0px;
 }
 
-.missons {
-    font-family: 'Slackey', cursive;
-    margin: 0;
-}
 
 .stage-desc {
     font-size: 16px;
@@ -118,7 +114,6 @@
     align-self: flex-start;   
 }
 
-/* 각각 개별 색상 */
 .btn-back {
     background-color: #ccc;
     border: none;

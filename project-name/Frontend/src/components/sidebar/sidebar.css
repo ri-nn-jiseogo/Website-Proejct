@@ -1,7 +1,7 @@
 
 
 .Sidebar {
-    width: 250px;
+    width: 400px;
     height: 100vh;
     background-color: #1a2d58;
     color: white;
@@ -12,6 +12,7 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     margin: 80px, 40px;
     font-family: 'Slackey', cursive;
+    font-size: 1.7rem;
 }
 
 .sidebar-wrapper {
@@ -22,7 +23,7 @@
 }
 
 .Logo {
-    width: 15rem !important;
+    width: 20rem !important;
     height: auto;
   }
 
@@ -49,3 +50,9 @@
     transition: width 0.3s ease;
 }
 
+.Sidebar .btn {
+    font-size: 1.7rem;
+    padding: 0.8rem 1rem;
+    width: 100%;
+  }
+  

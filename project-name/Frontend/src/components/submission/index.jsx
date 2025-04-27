@@ -1,17 +1,31 @@
-import React, { useState } from "react";
+// src/components/submission/index.jsx
+import React, { useState, useEffect } from "react";
 import "./submission.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CodeMirror from "@uiw/react-codemirror";
 import { java } from "@codemirror/lang-java";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import { useRecoilValue } from "recoil";
-import { userState } from "../../models/userinfos";   // Recoil User info
+import { userState } from "../../models/userinfos";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
-const Submission = () => {
+const LESSON_MAP = {
+  lesson1: "Primitive_types",
+  lesson2: "If_statements",
+  lesson3: "Iteration",
+  lesson4: "Array",
+  lesson5: "ArrayList",
+  lesson6: "Array_2d",
+  lesson7: "Recursion",
+};
+
+export default function Submission() {
   const navigate = useNavigate();
-  const user     = useRecoilValue(userState);        // { Id, name, level … }
+  const user = useRecoilValue(userState);
+  const { lesson } = useParams();                         // ex. "lesson3"
+  const collectionName = LESSON_MAP[lesson] || lesson;     // ex. "Iteration"
 
-  /* ---------- local state ---------- */
   const [userCode, setUserCode] = useState(
 `public class Main {
     public static void main(String[] args) {
@@ -20,13 +34,31 @@ const Submission = () => {
 }`
   );
   const [responseMsg, setResponseMsg] = useState("");
+  const [missionContent, setMissionContent] = useState("Loading...");
 
-  /* ---------- handlers ---------- */
+  useEffect(() => {
+    async function fetchMission() {
+      try {
+        const docRef = doc(db, "Questions", collectionName);
+        const snap = await getDoc(docRef);
+        if (snap.exists()) {
+          const data = snap.data();
+          setMissionContent(data.Q1?.Question || "No description.");
+        } else {
+          setMissionContent("No mission found for this lesson.");
+        }
+      } catch (error) {
+        console.error("Error fetching mission:", error);
+        setMissionContent("Error loading mission.");
+      }
+    }
+    fetchMission();
+  }, [collectionName]);
+
   const handleBack = () => navigate(-1);
-
   const handleGiveUp = () => {
     if (window.confirm("Do you want to skip question?")) {
-      navigate("/user/learning/lesson1/next");
+      navigate(`/user/learning/${lesson}`);
     }
   };
 
@@ -37,36 +69,29 @@ const Submission = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          code:       userCode,          // Submission Code
-          userID:     user?.Id,          // User ID (Recoil)
-          category:   "Array",           // Question Category
-          problem_id: "Q1"               // Question ID
+          code:       userCode,
+          userID:     user?.Id,
+          category:   collectionName,
+          problem_id: "Q1"
         }),
       });
-
       const data = await res.json();
-      if (data.result === "Correct") {
-        setResponseMsg("Correct!");
-      } else if (data.result === "compile_error") {
-        setResponseMsg("Compile Error:\n" + data.message);
-      } else if (data.result === "Incorrect") {
-        setResponseMsg("Incorrect.");
-      } else {
-        setResponseMsg(`Error: ${JSON.stringify(data, null, 2)}`);
-      }
+      if (data.result === "Correct")       setResponseMsg("Correct!");
+      else if (data.result === "compile_error")
+                                           setResponseMsg("Compile Error:\n" + data.message);
+      else if (data.result === "Incorrect") setResponseMsg("Incorrect.");
+      else                                   setResponseMsg(`Error: ${JSON.stringify(data)}`);
     } catch (error) {
       console.error(error);
       setResponseMsg("Server Disconnected.");
     }
   };
 
-  /* ---------- render ---------- */
   return (
     <div className="content">
-      {/* Content area */}
       <div className="TextBox">
         <div className="flex-container">
-          <h1 className="missons">Missions</h1>
+          <h1 className="missions">Missions</h1>
         </div>
         <p className="stage-desc">
           In the game, you are allowed to participate in up to 15 missions at a time.
@@ -79,10 +104,11 @@ const Submission = () => {
         <section className="mission">
           <h1 className="title">Mission</h1>
           <div className="mission-desc">
-            <p className="mission-content">This is a mission.</p>
+            <p className="mission-content">{missionContent}</p>
           </div>
-
-          <button className="btn-back" onClick={handleBack}>Back</button>
+          <button className="btn-back" onClick={handleBack}>
+            Back
+          </button>
         </section>
 
         <section className="right-panel">
@@ -94,15 +120,17 @@ const Submission = () => {
               theme={dracula}
               extensions={[java()]}
               className="code-editor"
-              onChange={(value) => setUserCode(value)}
+              onChange={setUserCode}
             />
           </div>
 
           <div className="right-buttons">
-            <button className="btn-giveup" onClick={handleGiveUp}>GIVE UP</button>
-            <button className="btn-submit" onClick={handleSubmit}>CHECK!</button>
-
-            {/* Result */}
+            <button className="btn-giveup" onClick={handleGiveUp}>
+              GIVE UP
+            </button>
+            <button className="btn-submit" onClick={handleSubmit}>
+              CHECK!
+            </button>
             <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
               <strong>Result: {responseMsg}</strong>
             </div>
@@ -111,6 +139,4 @@ const Submission = () => {
       </div>
     </div>
   );
-};
-
-export default Submission;
+}
