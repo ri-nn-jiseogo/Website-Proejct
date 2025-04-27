@@ -2,8 +2,14 @@
     margin: 40px;
 }
 
+.missons {
+    font-family: 'Slackey', cursive;
+    margin: 0; /* Ensure no extra margin */
+}
+
 .TextBox{
     padding-bottom: 30px;
+    
 }
 
 
@@ -13,4 +19,16 @@
     height: 600px;
     border-radius: 20px;
     box-shadow: 3px 3px 2px rgba(0,0,0,0.1);
+}
+
+.flex-box{
+    display: flex;
+}
+
+.info{
+    display:flex;
+}
+
+.Profile{
+    display:flex;
 }
