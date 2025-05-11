@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import "./resources.css";
 
 const lessons = [
-  { id: "lesson1", title: "Lesson 1", desc: "Primitive Types" },
-  { id: "lesson2", title: "Lesson 2", desc: "Boolean Expressions" },
-  { id: "lesson3", title: "Lesson 3", desc: "Iteration" },
-  { id: "lesson4", title: "Lesson 4", desc: "Array" },
-  { id: "lesson5", title: "Lesson 5", desc: "ArrayList" },
-  { id: "lesson6", title: "Lesson 6", desc: "2D Array" },
-  { id: "lesson7", title: "Lesson 7", desc: "Recursion" },
+  {link: "https://runestone.academy/ns/books/published/csawesome/Unit1-Getting-Started/toctree.html",id: "lesson1", title: "Lesson 1", desc: "Primitive Types" },
+  {link: "https://runestone.academy/ns/books/published/csawesome/Unit3-If-Statements/toctree.html", id: "lesson2", title: "Lesson 2", desc: "Boolean Expressions" },
+  {link: "https://runestone.academy/ns/books/published/csawesome/Unit4-Iteration/toctree.html", id: "lesson3", title: "Lesson 3", desc: "Iteration" },
+  {link: "https://runestone.academy/ns/books/published/csawesome/Unit6-Arrays/toctree.html", id: "lesson4", title: "Lesson 4", desc: "Array" },
+  {link: "https://runestone.academy/ns/books/published/csawesome/Unit7-ArrayList/toctree.html" ,id: "lesson5", title: "Lesson 5", desc: "ArrayList" },
+  {link: "https://runestone.academy/ns/books/published/csawesome/Unit8-2DArray/toctree.html", id: "lesson6", title: "Lesson 6", desc: "2D Array" },
+  {link:  "https://runestone.academy/ns/books/published/csawesome/Unit10-Recursion/toctree.html",id: "lesson7", title: "Lesson 7", desc: "Recursion" },
 ];
 export default function Learning() {
   const [showModal, setShowModal] = useState(false);
@@ -29,9 +29,9 @@ export default function Learning() {
       </div>
 
       <div className="resource-container">
-        {lessons.map(({ id, title, desc }) => (
+        {lessons.map(({ link, id, title, desc }) => (
           <div className="Resource" key={id}>
-            <Link to={``} className="chapter-link">
+            <Link to={link} className="chapter-link">
               <h1 className="resource-title">{title}</h1>
               <div className="resource-desc">
                 <p>{desc}</p>
