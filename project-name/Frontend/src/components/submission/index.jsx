@@ -18,6 +18,7 @@ const LESSON_MAP = {
   lesson5: "ArrayList",
   lesson6: "Array_2d",
   lesson7: "Recursion",
+  lesson8: "Random",
 };
 
 export default function Submission() {
@@ -132,7 +133,6 @@ export default function Submission() {
               CHECK!
             </button>
             <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
-              <strong>Result: {responseMsg}</strong>
             </div>
           </div>
         </section>

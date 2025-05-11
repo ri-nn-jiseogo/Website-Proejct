@@ -1,7 +1,7 @@
 
 
 .Sidebar {
-    width: 400px;
+    width: 350px;
     height: 100vh;
     background-color: #1a2d58;
     color: white;
@@ -12,7 +12,7 @@
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
     margin: 80px, 40px;
     font-family: 'Slackey', cursive;
-    font-size: 1.7rem;
+    font-size: 1.4rem;
 }
 
 .sidebar-wrapper {

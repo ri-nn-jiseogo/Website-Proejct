@@ -1,10 +1,10 @@
 // src/components/lessonPage/index.jsx
 import React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import './lessonPage.css';
 
 // Map lesson IDs to human-readable titles
-const LESSON_MAP = {
+const LESSON_TITLES = {
   lesson1: 'Primitive Types',
   lesson2: 'Boolean Expressions and if Statements',
   lesson3: 'Iteration',
@@ -12,55 +12,51 @@ const LESSON_MAP = {
   lesson5: 'ArrayList',
   lesson6: '2D Array',
   lesson7: 'Recursion',
+  lesson8: 'Random',
 };
 
 export default function LessonPage() {
-  const { lesson } = useParams();              // e.g. "lesson3"
-  const title = LESSON_MAP[lesson] || lesson;  // lookup or fallback
+  const navigate = useNavigate();
+  const { lesson } = useParams();              
+  const lessonTitle = LESSON_TITLES[lesson] || lesson;
 
   return (
-    <div className="content">
-      <div className="Topbox">
-        <div className="TextBox">
-          <div className="flex-container">
-            <h1 className="missions">Missions</h1>
-          </div>
-          <p className="stage-desc">
-            In this lesson, you will solve problems on <strong>{title}</strong>.<br />
-            Click "Try!" below to start coding.
+    <div className="lesson-page">
+      <div className="lesson-page__header">
+        <div className="lesson-page__info">
+          <h1 className="lesson-page__info-title">Missions</h1>
+          <p className="lesson-page__info-desc">
+            In this lesson, you will solve problems on <strong>{lessonTitle}</strong>.<br />
+            In the game, you are allowed to participate in up to 15 missions at a time.<br />
+            <strong>Click "Try!" to start coding.</strong>
           </p>
         </div>
 
-        <div className="Chapter">
-          <Link
-            to={`/user/learning/${lesson}/submission`}
-            className="chapter-link"
-          >
-            <h1 className="chapter-title">Try!</h1>
-            <div className="chapter-desc">
-              <p>{title}</p>
-            </div>
-          </Link>
-        </div>
+        <button
+          className="lesson-page__try-button"
+          onClick={() => navigate(`/user/learning/${lesson}/submission`)}
+        >
+          <span className="lesson-page__try-button-main">Try!</span>
+          <span className="lesson-page__try-button-sub">{lessonTitle}</span>
+        </button>
       </div>
 
-      <div className="mission-container">
-        <h1 className="mission-title">Lesson Mission History</h1>
-        <div className="missions header">
-          <span className="section-name">Date</span>
-          <span className="section-name">Topic</span>
-          <span className="section-name">Difficulty</span>
-          <span className="section-name">Question</span>
-          <span className="section-name">Points</span>
+      <div className="lesson-page__history">
+        <h2 className="lesson-page__history-title">Lesson Mission List</h2>
+        <div className="lesson-page__history-row lesson-page__history-row--header">
+          <span className="lesson-page__cell">Info</span>
+          <span className="lesson-page__cell">Topic</span>
+          <span className="lesson-page__cell">Difficulty</span>
+          <span className="lesson-page__cell">Question</span>
+          <span className="lesson-page__cell">Points</span>
         </div>
-        {/* Data Example */}
-        <div className="missions-row">
-          <span className="section-name">2024-01-01</span>
-          <span className="section-name">Strings</span>
-          <span className="section-name">Hard</span>
-          <span className="section-name">Lorem Ipsum</span>
-          <span className="section-name">120</span>
-          <button className="Review-button">Review</button>
+        <div className="lesson-page__history-row">
+          <span className="lesson-page__cell">Success</span>
+          <span className="lesson-page__cell">Strings</span>
+          <span className="lesson-page__cell">Hard</span>
+          <span className="lesson-page__cell">Lorem Ipsum</span>
+          <span className="lesson-page__cell">120</span>
+          <button className="lesson-page__review-button">Review</button>
         </div>
       </div>
     </div>

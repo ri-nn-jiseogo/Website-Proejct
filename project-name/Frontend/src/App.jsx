@@ -18,6 +18,8 @@ import Lecture from './components/lecture';
 import LessonPage from './components/LessonPage'; 
 import Submission from './components/submission';
 import Mypage from './components/mypage';
+import Resources from './components/Resources';
+import Challenges from './components/Challenges';
 
 function Landingpage() {
   const navigate = useNavigate();
@@ -72,6 +74,8 @@ export default function App() {
           <Route path="learning/:lesson" element={<LessonPage />} />
           <Route path="learning/:lesson/submission" element={<Submission />} />
           <Route path="lecture" element={<Lecture />} />
+          <Route path="resources" element={<Resources />} />
+          <Route path="Challenges" element={<Challenges />} />
           <Route path="mypage" element={<Mypage />} />
           <Route path="admin" element={<AdminPage />} />
         </Route>

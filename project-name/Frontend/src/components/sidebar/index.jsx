@@ -15,7 +15,7 @@ const Sidebar = () => {
                     <li><Link to="/user">Stage & Ranking</Link></li>
                     <li><Link to="/user/learning">Learning Missions</Link></li>
                     <li><Link to="/user/challenges">Challenges</Link></li>
-                    <li><Link to="/user/learning">Learning Resources</Link></li>
+                    <li><Link to="/user/resources">Learning Resources</Link></li>
                     <li><Link to="/user/mypage">My Page</Link></li>
                 </ul>
                 <Button className="w-100" variant="primary" type="submit" href="/login">

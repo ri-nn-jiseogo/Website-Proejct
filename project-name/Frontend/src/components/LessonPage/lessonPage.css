@@ -1,108 +1,104 @@
-.content {
+.lesson-page {
     margin: 40px;
 }
 
-.flex-container {
+.lesson-page__header {
     display: flex;
-    gap: 20px;
     align-items: center;
-    padding: 0px;
 }
 
-.Topbox{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;            
+.lesson-page__info {
+    flex: none;
 }
 
-
-
-.stage-desc {
-    font-size: 16px;
+.lesson-page__info-title {
+    font-family: 'Slackey', cursive;
+    font-size: 4.5rem;
+    margin: 0;
     text-align: left;
-    font-family: 'Oxanium';
 }
 
+.lesson-page__info-desc {
+    margin-top: 1rem;
+    font-family: 'Oxanium';
+    font-size: 1.5rem !important;
+    text-align: left;
+    line-height: 1.4;
+}
 
-.mission-container{
+/* Element: try-button */
+.lesson-page__try-button {
+    background-color: #65C726;
+    border: none;
+    border-radius: 70px;
+    width: 400px;
+    height: 120px;
+    color: #fff;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Slackey', cursive;
+    padding: 0;
+    margin-left: auto;
+}
+
+.lesson-page__try-button-main {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.lesson-page__try-button-sub {
+    font-size: 1rem;
+    margin-top: 0.25rem;
+}
+
+/* Block: history */
+.lesson-page__history {
     background-color: rgba(228, 228, 228, 0.9);
-    padding: 50;
+    padding: 25px 50px 50px 25px;
     height: 600px;
     border-radius: 20px;
-    box-shadow: 3px 3px 2px rgba(0,0,0,0.1);
+    box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
 }
 
-.chapter-link{
-    text-decoration: none;
-    color: white;
-}
-
-.chapter-link .hover{
-    text-decoration: none;
-    color: white;
-}
-
-.Chapter{
-    margin: 0; /* Ensure no extra margin */
-    background-color: #65C726;
-    border-radius: 70px;
-    width: 250px;
-    height: 100px;
-    color: white;
-    box-shadow: 3px 3px 3px rgba(0,0,0,0.3);
-}
-
-.chapter-title{
-    font-size: 25px;
-    padding-top: 20px;
+.lesson-page__history-title {
     font-family: 'Slackey', cursive;
-}
-
-.mission-title{
-    font-size: 25px;
-    padding-top: 25px;
-    padding-left: 25px;
-    padding-bottom: 15px;
-    font-family: 'Slackey', cursive;
+    font-size: 2rem;
+    margin: 0 0 1rem 25px;
     text-align: start;
-    
 }
 
-
-.missions{
+/* Row: header / data */
+.lesson-page__history-row {
     display: grid;
     grid-template-columns: 0.7fr 0.7fr 0.7fr 1fr 1fr 0.7fr;
-    grid-auto-rows: 36px;     
+    grid-auto-rows: 36px;
     padding: 0 25px;
-  }
-
-  .missions-row{
-    display: grid;
-    grid-template-columns: 0.7fr 0.7fr 0.7fr 1fr 1fr 0.7fr;
-    grid-auto-rows: 36px;     
-    padding: 0 25px;
-  }
-  
-.missions > *{
-    line-height: 36px;        
-    padding: 0 8px;           
-    margin: 0;                
-  }
-
-.section-name{
+    align-items: center;
     font-family: 'Oxanium';
-    font-size: 18px;
+    font-size: 1.125rem;
     text-align: start;
-    padding: 0px;
 }
 
-.Review-button{
-    width: 100%;
-    height: 30px;
-    border-radius: 5px;
-  
-    align-self: center;           
-    display: flex;                
-    justify-content: center;      
-    align-items: center;          
+.lesson-page__history-row--header {
+    font-family: 'Slackey', cursive;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.lesson-page__review-button {
+    background-color: #f2c94c;        
+    color: #ffffff;                   
+    border: none;                     
+    border-radius: 20px;             
+    font-family: 'Slackey', cursive;  
+    font-size: 1rem;                 
+    padding: 0.5rem 1rem;           
+    cursor: pointer;               
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.2); 
   }
+  

@@ -1,119 +1,47 @@
-import { useState } from "react"
-import "./stages.css"
-import InfiniteScroll from "react-infinite-scroll-component"
-import { userState } from '../../models/userinfos/index.js'
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import React from "react";
+import "./stages.css";
 
+export default function Stages() {
+  const userPoints = 8300;
+  const solved = {
+    Difficult: 30,
+    Moderate: 64,
+    Easy: 20,
+    Challenge: 20,
+  };
 
-import {getlevel, getUsers} from "../../firebase.js";
+  return (
+    <div className="stages-container">
+      <div className="stages__main">
+        <h1 className="stages__title">Stages</h1>
+        <p className="stages__subtitle">
+          Collect points to climb through each stage!<br />
+          If you complete hidden missions along the way, you can also skip stages!
+        </p>
 
-
-const Stages = () => {
-
-    const user = useRecoilValue(userState);
-
-    const [lastlevel, setLastlevel] = useState(0)
-
-
-
-    const stageinfo = {
-        stagelevel: 1,
-        userlevel: ["Ben", "Kait"],
-    }
-    // const [items, setItems] = useState(Array.from({ length: 10 }, (_, i) => `${i + 1}`));
-
-    const [items, setItems] = useState([])
-
-    // {stagelevel: 1, userlevel: []}
-
-    const fetchData = () => {
-        console.log("Next");
-        setTimeout(() => {
-            const newItems = Array.from({ length: 10 }, (_, i) => `${items.length + i + 1}`);
-            setItems((oldArray) => [...oldArray, ...newItems]);
-        }, 1500);
-    };
-
-    const refresh = () => {
-        console.log("refresh");
-        getlevel().then((level) => {
-            console.log(level)
-            if(level){
-                const filtered = level.docs
-                    .filter(element => {
-                        console.log(element.id);
-                        return element.id < user.level + 5;
-                    })
-                    .map(i => ({
-                        stagelevel: i.id,  // Assigning stagelevel from element id
-                        userlevel: i.data() // Assigning userlevel from element data
-                    }));
-
-                setItems(filtered);
-            }
-        })
-        const newValue = Array.from({ length: 20 }, (_, i) => `${i + 1}`);
-        setItems(newValue);
-    };
-
-
-
-
-    return(
-        <div className="stages-main">
-            <div className="score">
-                <h1>Stages</h1>
-                <p className = "stage-desc">Collect points to climb through each stage! <br/> If you complete hidden missions along the way, you can also skip stages!</p>
-                <div className="pointer">
-                    {/* <div className="pointer-content">
-                        <div className="point-display">
-                            <p> 2300</p>
-                        </div>
-                        <p> points</p>
-                    </div> */}
-                    <p className="pointer-content">12313</p>
-                </div>
-            </div>
-            <div className="path"
-            id = "path"
-            style={{
-                height: "90%",
-                overflow: 'auto',
-                display: 'flex',
-                // flexDirection: 'column-reverse',
-              }}
-            >
-                <InfiniteScroll
-                    dataLength= {items.length} //This is important field to render the next data
-                    next={fetchData}
-                    hasMore={true}
-                    loader={<h4>Loading...</h4>}
-                    endMessage={
-                        <p style={{ textAlign: 'center' }}>
-                        <b>Yay! You have seen it all</b>
-                        </p>
-                    }
-                    // below props only if you need pull down functionality
-                    refreshFunction={refresh}
-                    pullDownToRefresh
-                    pullDownToRefreshThreshold={50}
-                    pullDownToRefreshContent={
-                        <h3 style={{ textAlign: 'center' }}>&#8595; Pull down to refresh</h3>
-                    }
-                    releaseToRefreshContent={
-                        <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
-                    }
-                    scrollableTarget="path"
-                    >
-                        {items.map((i, index) => (
-                            <div key={index} style = {{height: "20px"}}>
-                            div - #{i.stagelevel} / {i.userlevel}
-                            </div>
-                        ))}
-                </InfiniteScroll>
-            </div>
+        <div className="stages__points-box">
+          <span className="points-box__value">
+            {userPoints.toLocaleString()}
+          </span>
+          <span className="points-box__label">Points</span>
         </div>
-    )
-}
 
-export default Stages
+        <div className="stages__solved-box">
+          <h2 className="solved-box__header">SOLVED</h2>
+          {Object.entries(solved).map(([level, count]) => (
+            <div className="solved-box__row" key={level}>
+              <span className="row__label">{level}</span>
+              <span className="row__value">{count}</span>
+              <span className="row__unit">Questions</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="stages__right">
+        <div className="placeholder-box">temp placeholder</div>
+        <div className="placeholder-box">temp placeholder</div>
+      </div>
+    </div>
+  );
+}
