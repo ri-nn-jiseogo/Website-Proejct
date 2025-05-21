@@ -8,11 +8,11 @@ const lessonTopics = [
   'Primitive_types',
   'If_statements',
   'Iteration',
-  'Writing_Classes',
   'Array',
   'Arraylist',
   '2D_array',
-  'Recursion'
+  'Recursion',
+  'Random'
 ]
 
 export default function Admin() {
@@ -93,8 +93,26 @@ export default function Admin() {
     setSelectedLesson('')
     setDifficulty('')
   }
-  const confirmGenerate = () => {
+  const confirmGenerate = async () => {
     console.log(`Generate ${difficulty} questions for ${selectedLesson}`)
+    try {
+      const topicmap = {
+        'Lesson 1': 'Primitive_types',
+        'Lesson 2': 'If_statements',
+        'Lesson 3': 'Iteration',
+        'Lesson 4': 'Array',
+        'Lesson 5': 'Arraylist',
+        'Lesson 6': '2D_array',
+        'Lesson 7': 'Recursion',
+        'Lesson 8': 'Random'
+      };
+      const topicKey = topicmap[selectedLesson];
+      const res = await fetch(`http://localhost:5050/api/gpt-problem?lesson=${topicKey}&difficulty=${difficulty.toLowerCase()}`);
+      if (res.ok) alert('Successfully generated questions')
+      else alert('failed generate questions')
+    } catch {
+      alert('Network error')
+    }
     closeModal()
   }
 
