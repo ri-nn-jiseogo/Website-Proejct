@@ -27,8 +27,12 @@ export default function Submission() {
   const { lesson } = useParams();                         // ex. "lesson3"
   const collectionName = LESSON_MAP[lesson] || lesson;     // ex. "Iteration"
 
+  const [showgiveupModal, setgiveupModal] = useState(false);
+  const [showcorrectModal, setcorrectModal] = useState(false);
+  const [showincorrectModal, setincorrectModal] = useState(false);
+
   const [userCode, setUserCode] = useState(
-`public class Main {
+    `public class Main {
     public static void main(String[] args) {
         // Write your code here
     }
@@ -58,9 +62,11 @@ export default function Submission() {
 
   const handleBack = () => navigate(-1);
   const handleGiveUp = () => {
-    if (window.confirm("Do you want to skip question?")) {
-      navigate(`/user/learning/${lesson}`);
-    }
+          setgiveupModal(true);
+    // if (window.confirm("Do you want to skip question?")) {
+    //   navigate(`/user/learning/${lesson}`);
+
+    // }
   };
 
   const handleSubmit = async () => {
@@ -70,18 +76,26 @@ export default function Submission() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          code:       userCode,
-          userID:     user?.Id,
-          category:   collectionName,
+          code: userCode,
+          userID: user?.Id,
+          category: collectionName,
           problem_id: "Q1"
         }),
       });
       const data = await res.json();
-      if (data.result === "Correct")       setResponseMsg("Correct!");
-      else if (data.result === "compile_error")
-                                           setResponseMsg("Compile Error:\n" + data.message);
-      else if (data.result === "Incorrect") setResponseMsg("Incorrect.");
-      else                                   setResponseMsg(`Error: ${JSON.stringify(data)}`);
+      if (data.result === "Correct") {
+        setResponseMsg("Correct!");
+        setcorrectModal(true);
+      }
+      else if (data.result === "compile_error") {
+        setResponseMsg("Compile Error:\n" + data.message);
+        setincorrectModal(true);
+      }
+      else if (data.result === "Incorrect") {
+        setResponseMsg("Incorrect.");
+        setincorrectModal(true);
+      }
+      else setResponseMsg(`Error: ${JSON.stringify(data)}`);
     } catch (error) {
       console.error(error);
       setResponseMsg("Server Disconnected.");
@@ -137,6 +151,54 @@ export default function Submission() {
           </div>
         </section>
       </div>
+      {showgiveupModal && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Skip?</h2>
+            <ol>
+              <li>Are you sure you want to skip this question?</li>
+              <li>You may not receive any points.</li>
+            </ol>
+            <div className="popup-buttons">
+              <button onClick={() => setgiveupModal(false)}>Cancel</button>
+              <button onClick={() => setgiveupModal(false)}>Skip</button>
+
+            </div>
+          </div>
+        </div>
+      )}
+      {showcorrectModal && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Correct!</h2>
+            <ol>
+              <li>You are rewarded ( 80 ) points!</li>
+              <li>You have ( 8 ) more missions to try.</li>
+            </ol>
+            <div className="popup-buttons">
+              <button onClick={() => setcorrectModal(false)}>Stop</button>
+              <button onClick={() => setcorrectModal(false)}>More</button>
+
+            </div>
+          </div>
+        </div>
+      )}
+      {showincorrectModal && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Incorrect!</h2>
+            <ol>
+              <li>Your Code is incorrect.</li>
+              <li>Find mistakes to receive the point!</li>
+            </ol>
+            <div className="popup-buttons">
+              <button onClick={() => setincorrectModal(false)}>Stop</button>
+              <button onClick={() => setincorrectModal(false)}>Try Again</button>
+
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
