@@ -1,14 +1,30 @@
 import React from "react";
 import "./stages.css";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../models/userinfos";
 
 export default function Stages() {
-  const userPoints = 8300;
+  const { stats, challenges } = useRecoilValue(userState);
+
+  const missionSolved =
+    stats.difficult + stats.moderate + stats.easy;
+
+  const solvedTotal = missionSolved + challenges;
+
+  const totalPoints =
+    stats.difficult * 30 +
+    stats.moderate  * 20 +
+    stats.easy      * 10 +
+    challenges     * 100;
+
   const solved = {
-    Difficult: 30,
-    Moderate: 64,
-    Easy: 20,
-    Challenge: 20,
+    Difficult: stats.difficult,
+    Moderate:  stats.moderate,
+    Easy:      stats.easy,
+    Challenge: challenges,
   };
+  
+  const userPoints = totalPoints;
 
   return (
     <div className="stages-container">

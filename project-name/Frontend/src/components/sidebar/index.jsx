@@ -25,7 +25,7 @@ const Sidebar = () => {
                     <li><Link to="/user/mypage">My Page</Link></li>
                     {user.isstaff && (
                         <li>
-                            <Link to="/user/admin">Admin</Link>
+                            <Link to="/user/admin">Admin : Setting</Link>
                         </li>
                     )}
                 </ul>

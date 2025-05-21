@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useEffect } from 'react';
 import './App.css';
 import './fonts/Momentz.ttf';
@@ -17,9 +16,10 @@ import Learning from './components/learning';
 import Lecture from './components/lecture';
 import LessonPage from './components/LessonPage'; 
 import Submission from './components/submission';
-import Mypage from './components/mypage';
+import Mypage from './components/Mypage';
 import Resources from './components/Resources';
 import Challenges from './components/Challenges';
+import Admin from './components/Admin';
 
 function Landingpage() {
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ export default function App() {
           <Route path="resources" element={<Resources />} />
           <Route path="Challenges" element={<Challenges />} />
           <Route path="mypage" element={<Mypage />} />
-          <Route path="admin" element={<AdminPage />} />
+          <Route path="Admin" element={<Admin />} />
         </Route>
       </Routes>
     </BrowserRouter>

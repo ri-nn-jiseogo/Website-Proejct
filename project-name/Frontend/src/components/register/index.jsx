@@ -17,21 +17,28 @@ const Register = () => {
 
     const userid = e.target.elements.user.value;
     const email = e.target.elements.email.value;
+    const gradeValue = e.target.elements.grade.value;
     const password = e.target.elements.passwords.value;
     const confirmpass = e.target.elements.confirmpass.value;
     const firstname = e.target.elements.firstname.value;
     const lastname = e.target.elements.lastname.value;
 
-    if (!userid || !email || !password || !confirmpass || !firstname || !lastname) {
+    if (!userid || !email || !password || !confirmpass || !firstname || !lastname || !gradeValue) {
       setMessage("One or more missing data");
       return;
     }
 
     const users = await getUsers();
-    const exists = users.docs.some(doc => doc.id === userid); // doc.id는 사용자 ID
+    const exists = users.docs.some(doc => doc.id === userid); 
     
     if (exists) {
       setMessage("This ID already exists");
+      return;
+    }
+
+    const gradeNum = Number(gradeValue);
+    if (Number.isNaN(gradeNum) || gradeNum < 1 || gradeNum > 12) {
+      setMessage("grade must be between 1 and 12");
       return;
     }
 
@@ -45,6 +52,7 @@ const Register = () => {
       return;
     }
 
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -55,11 +63,18 @@ const Register = () => {
         email: email,
         firstname: firstname,
         lastname: lastname,
+        grade: gradeNum,
         isstaff: false,
-        level: 1,
+        tier: "bronze",
+        stats: {
+          "difficult": 0,
+          "moderate": 0,
+          "easy": 0
+        },
+        challenges: 0
       });
 
-      alert("회원가입 성공!");
+      alert("Registration Success!");
       navigate("/login");
     } catch (error) {
       console.error(error);
@@ -81,6 +96,10 @@ const Register = () => {
         <div className="mb-3">
           <label>Email</label>
           <input type="email" className="form-control" name="email" placeholder="Email" />
+        </div>
+        <div className="mb-3">
+          <label>Grade</label>
+          <input type="grade" className="form-control" name="grade" placeholder="Grade (1-12)" />
         </div>
         <div className="mb-3">
           <label>Passwords</label>

@@ -75,15 +75,18 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, inputPassword);
       const authedUser = userCredential.user;
 
-      // 로그인 성공 후 상태 업데이트
       setuser({
-        level: userData.level,
-        Id: userData.Id,
-        name: userData.firstname + " " + userData.lastname,
+        Id: userDoc.id,
+        email: userData.email,
+        firstname: userData.firstname,
+        lastname: userData.lastname,
+        grade: userData.grade,
         isstaff: userData.isstaff,
+        tier: userData.tier,
+        stats: userData.stats,
+        challenges: userData.challenges, 
       });
 
-      // Remember Me 저장
       if (rememberMe) {
         localStorage.setItem("savedUsername", inputUsername);
         localStorage.setItem("savedPassword", inputPassword);

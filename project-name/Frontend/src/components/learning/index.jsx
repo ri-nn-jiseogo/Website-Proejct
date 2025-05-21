@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 import "./learning.css";
 
+const lessonTopics = [
+  'Primitive_types',     // Lesson 1
+  'If_statements',       // Lesson 2
+  'Iteration',           // Lesson 3    
+  'Array',               // Lesson 4
+  'Arraylist',           // Lesson 5
+  '2D_array',            // Lesson 6
+  'Recursion',            // Lesson 7
+  'Random'              // lesson 8
+]
 const lessons = [
   { id: "lesson1", title: "Lesson 1", desc: "Primitive Types" },
-  { id: "lesson2", title: "Lesson 2", desc: "Boolean Expressions and if Statements" },
+  { id: "lesson2", title: "Lesson 2", desc: "Boolean Expressions" },
   { id: "lesson3", title: "Lesson 3", desc: "Iteration" },
   { id: "lesson4", title: "Lesson 4", desc: "Array" },
   { id: "lesson5", title: "Lesson 5", desc: "ArrayList" },
@@ -12,8 +24,22 @@ const lessons = [
   { id: "lesson7", title: "Lesson 7", desc: "Recursion" },
   { id: "lesson8", title: "Lesson 8", desc: "Random" },
 ];
+
 export default function Learning() {
   const [showModal, setShowModal] = useState(false);
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      const snap = await getDoc(doc(db, "Settings", "LessonStatus"));
+      setStatus(snap.exists() ? snap.data() : {});
+    };
+    fetchStatus();
+  }, []);
+  
+  if (status === null) {
+    return
+  }
 
   return (
     <div className="learning">
@@ -37,16 +63,29 @@ export default function Learning() {
       </div>
 
       <div className="chapter-container">
-        {lessons.map(({ id, title, desc }) => (
-          <div className="Chapter" key={id}>
-            <Link to={`/user/learning/${id}`} className="chapter-link">
-              <h1 className="chapter-title">{title}</h1>
-              <div className="chapter-desc">
-                <p>{desc}</p>
-              </div>
-            </Link>
-          </div>
-        ))}
+        {lessons.map(({ id, title, desc }) => {
+          const isOpen = status[id];
+          return (
+            <div className={`Chapter${isOpen ? "" : " locked"}`} key={id}>
+              {isOpen ? (
+                <Link to={`/user/learning/${id}`} className="chapter-link">
+                  <h1 className="chapter-title">{title}</h1>
+                  <div className="chapter-desc">
+                    <p>{desc}</p>
+                  </div>
+                </Link>
+              ) : (
+                <div className="chapter-link">
+                  <h1 className="chapter-title">{title}</h1>
+                  <div className="chapter-desc">
+                    <p>{desc}</p>
+                  </div>
+                  <p className="locked-text">Temporarily Locked</p>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {showModal && (
@@ -66,7 +105,7 @@ export default function Learning() {
             <button onClick={() => setShowModal(false)}>Close</button>
           </div>
         </div>
-      )}s
+      )}
     </div>
   );
 }

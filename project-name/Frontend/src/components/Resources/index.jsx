@@ -11,18 +11,14 @@ const lessons = [
   {link: "https://runestone.academy/ns/books/published/csawesome/Unit8-2DArray/toctree.html", id: "lesson6", title: "Lesson 6", desc: "2D Array" },
   {link:  "https://runestone.academy/ns/books/published/csawesome/Unit10-Recursion/toctree.html",id: "lesson7", title: "Lesson 7", desc: "Recursion" },
 ];
-export default function Learning() {
-  const [showModal, setShowModal] = useState(false);
 
+export default function Learning() {
   return (
     <div className="learning">
       <div className="learning__text-box">
-        <div className="learning__header">
-          <h1 className="learning__title">Missions</h1>
-        </div>
-
+        <h1 className="learning__title">Missions</h1>
         <p className="learning__description">
-          If you feel the need for further learning in any chapter, 
+          If you feel the need for further learning in any chapter,
           <br />
           simply click the button for the desired chapter below to access additional online learning materials.
         </p>
@@ -31,16 +27,20 @@ export default function Learning() {
       <div className="resource-container">
         {lessons.map(({ link, id, title, desc }) => (
           <div className="Resource" key={id}>
-            <Link to={link} className="chapter-link">
+            <a
+              href={link}
+              className="chapter-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <h1 className="resource-title">{title}</h1>
               <div className="resource-desc">
                 <p>{desc}</p>
               </div>
-            </Link>
+            </a>
           </div>
         ))}
       </div>
-
     </div>
   );
 }

@@ -1,30 +1,38 @@
 // src/components/MyPage/MyPage.jsx
-import React from 'react';
 import './myPage.css';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useNavigate } from 'react-router-dom';
 import { userState } from '../../models/userinfos';
 
 const MyPage = () => {
+  const userInfo = useRecoilValue(userState);
   const setUser = useSetRecoilState(userState);
   const navigate = useNavigate();
-  
+
   const handleSignOut = () => {
     setUser({ Id: undefined, name: undefined });
     navigate("/login");
   };
-  
-  const user = {
-    email: 'lily@test.com',
-    name: 'Lily Kim',
-    grade: 3,
-    totalPoints: 33800,
-    solvedTotal: 300,
-    missionSolved: 250,
-    challenges: 50,
-    stats: { difficult: 200, moderate: 30, easy: 70 },
-  };
 
+  const { email, firstname, lastname, grade, stats, challenges } = userInfo;
+  const missionSolved = stats.difficult + stats.moderate + stats.easy;
+  const solvedTotal = missionSolved + challenges;
+  const totalPoints =
+    stats.difficult * 30 +
+    stats.moderate * 20 +
+    stats.easy * 10 +
+    challenges * 100;
+
+  const user = {
+    email,                             
+    name: `${firstname} ${lastname}`,
+    grade,                               
+    stats,                              
+    challenges,                          
+    missionSolved,                       
+    solvedTotal,                          
+    totalPoints,                         
+  };
   return (
     <div className="my-page">
       <h1 className="my-page__title">My Page</h1>
@@ -48,7 +56,7 @@ const MyPage = () => {
           <div className="my-page__activity">
             <h3 className="my-page__section-title">Learning Activity Logs</h3>
             <p className="my-page__text">
-            <strong>Total Points Earned:</strong> {user.totalPoints.toLocaleString()} points
+              <strong>Total Points Earned:</strong> {user.totalPoints.toLocaleString()} points
             </p>
             <p className="my-page__text">
               <strong>Total Questions Solved:</strong> {user.solvedTotal} Questions

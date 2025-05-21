@@ -46,12 +46,12 @@
 }
 
 .lesson-page__try-button-main {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     line-height: 1;
 }
 
 .lesson-page__try-button-sub {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-top: 0.25rem;
 }
 
@@ -59,7 +59,7 @@
 .lesson-page__history {
     background-color: rgba(228, 228, 228, 0.9);
     padding: 25px 50px 50px 25px;
-    height: 600px;
+    height: 550px;
     border-radius: 20px;
     box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.1);
     margin-top: 2rem;
@@ -75,7 +75,12 @@
 /* Row: header / data */
 .lesson-page__history-row {
     display: grid;
-    grid-template-columns: 0.7fr 0.7fr 0.7fr 1fr 1fr 0.7fr;
+    grid-template-columns: 
+      0.7fr  
+      0.7fr  
+      1fr  
+      2fr   
+      0.7fr;
     grid-auto-rows: 36px;
     padding: 0 25px;
     align-items: center;
@@ -83,7 +88,6 @@
     font-size: 1.125rem;
     text-align: start;
 }
-
 .lesson-page__history-row--header {
     font-family: 'Slackey', cursive;
     font-size: 1.5rem;
@@ -97,8 +101,22 @@
     border-radius: 20px;             
     font-family: 'Slackey', cursive;  
     font-size: 1rem;                 
-    padding: 0.5rem 1rem;           
+    padding: 4px 16px;          
     cursor: pointer;               
     box-shadow: 2px 2px 4px rgba(0,0,0,0.2); 
   }
   
+.lesson-page__cell {
+  flex: 1;
+}
+
+.lesson-page__cell.points {
+  flex: 1.5; 
+}
+
+.lesson-page__history-row .lesson-page__cell:nth-child(3) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
