@@ -27,4 +27,3 @@ dist-ssr
 Frontend/src/components/GPT/index.jsx
 
 firebase_key.json
-requirements.txt

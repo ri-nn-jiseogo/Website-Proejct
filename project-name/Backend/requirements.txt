@@ -1,0 +1,6 @@
+flask
+flask-cors
+firebase-admin
+openai
+google-cloud-firestore
+gunicorn
