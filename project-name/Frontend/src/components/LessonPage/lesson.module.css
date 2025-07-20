@@ -1,0 +1,180 @@
+.lesson-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  padding-bottom: 5rem;
+  max-width: 1800px;
+}
+
+.lesson-page__header {
+  display: flex;
+  gap: 2rem;
+}
+
+.lesson-page__info-title {
+  font-family: 'Slackey', cursive;
+  font-size: 3.5rem;
+  margin: 0;
+  text-align: left;
+}
+
+.lesson-page__info-desc {
+  margin-top: 1rem;
+  font-family: 'Oxanium';
+  font-size: 1.5rem !important;
+  text-align: left;
+  line-height: 1.4;
+}
+
+/* Element: try-button */
+.lesson-page__try-button {
+  background-color: #65c726;
+  border: none;
+  border-radius: 70px;
+  height: 120px;
+  color: #fff;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: 'Slackey', cursive;
+  padding: 1.5rem 2rem;
+  gap: 0.5rem;
+  width: auto;
+  transition: all 0.3s ease;
+}
+
+.lesson-page__try-button:hover {
+  background-color: #4dbb1d;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 991px) {
+  .lesson-page__try-button {
+    width: 100%;
+  }
+}
+
+.lesson-page__try-button-main {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.lesson-page__try-button-sub {
+  font-size: 1.2rem;
+  text-wrap: nowrap;
+}
+
+/* Block: history */
+.lesson-page__history {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1.5rem;
+  box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.lesson-page__history-title {
+  font-family: 'Slackey', cursive;
+  font-size: 2rem;
+  margin: 1rem 0;
+  text-align: start;
+}
+
+.lesson-page__history-table {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.lesson-page__history-table thead {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.5rem;
+}
+
+.lesson-page__history-table thead th {
+  text-align: start;
+  font-family: 'Slackey', cursive;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+/* Row: header / data */
+.lesson-page__history-row {
+  font-family: 'Oxanium';
+  font-size: 1.125rem;
+  text-align: start;
+}
+.lesson-page__history-row--header {
+  font-family: 'Slackey', cursive;
+  font-size: 1.5rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+}
+.lesson-page__retry-button,
+.lesson-page__review-button {
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Slackey', cursive;
+  font-size: 1rem;
+  padding: 4px 16px;
+  cursor: pointer;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.lesson-page__review-button {
+  background-color: #f2c94c;
+}
+
+.lesson-page__retry-button {
+  background-color: #898989;
+}
+
+.lesson-page__cell {
+  padding: 0.5rem;
+}
+
+.lesson-page__cell.points {
+  flex: 1.5;
+}
+
+.lesson-page__history-row .lesson-page__cell:nth-child(3) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.lesson-page__history::-webkit-scrollbar {
+  width: 10px;
+}
+
+.lesson-page__history::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+}
+
+.lesson-page__history::-webkit-scrollbar-thumb {
+  background: #f2c94c;
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+}
+
+.lesson-page__review-button:disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+.lesson-page__try-button:disabled {
+  opacity: 0.5;
+  background-color: #ccc;
+  color: #666;
+}

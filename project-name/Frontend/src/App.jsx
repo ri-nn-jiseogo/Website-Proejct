@@ -1,58 +1,32 @@
-import React, { useEffect } from 'react';
+// src/App.jsx
 import './App.css';
 import './fonts/Momentz.ttf';
-import { BrowserRouter, Routes, Route, useNavigate, Outlet } from 'react-router-dom';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { userState } from './models/userinfos/index.js';
-import { Button } from 'react-bootstrap';
-import { getComments } from './firebase.js';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import Login from './components/login';
 import Register from './components/register';
-import GPT from './components/GPT';
 import Editor from './components/editor';
 import Sidebar from './components/sidebar';
 import Stages from './components/stages';
 import Learning from './components/learning';
 import Lecture from './components/lecture';
-import LessonPage from './components/LessonPage'; 
+import LessonPage from './components/LessonPage';
 import Submission from './components/submission';
 import Mypage from './components/Mypage';
 import Resources from './components/Resources';
 import Challenges from './components/Challenges';
 import Admin from './components/Admin';
-
-function Landingpage() {
-  const navigate = useNavigate();
-  return (
-    <div className="landing">
-      <Button onClick={() => navigate('/login')}>Log In</Button>
-    </div>
-  );
-}
-
-function AdminPage() {
-  return <div><b>This is admin</b></div>;
-}
+import { Navigate } from 'react-router-dom';
+import ReviewPage from './components/ReviewPage';
+import ChallengeSubmission from './components/ChallengeSubmission';
+import ChallengeReview from './components/ChallengeReview';
+import LoadingOverlay from './components/common/LoadingOverlay';
+import AuthWrapper from './components/common/AuthWrapper.jsx';
 
 function Headfoot() {
-  const navigate = useNavigate();
-  const setUser = useSetRecoilState(userState);
-  const user = useRecoilValue(userState);
-
-  useEffect(() => {
-    if (!user?.Id) {
-      navigate('/login');
-    }
-  }, [user, navigate]);
-
-  useEffect(() => {
-    getComments().then(res => console.log('comments:', res));
-  }, []);
-
   return (
-    <div className="Menu">
+    <div className='Menu'>
       <Sidebar />
-      <div className="Content">
+      <div className='Content'>
         <Outlet />
       </div>
     </div>
@@ -61,25 +35,37 @@ function Headfoot() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landingpage />} />
-        <Route path="/gpt" element={<GPT />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/editor" element={<Editor />} />
-        <Route path="/user" element={<Headfoot />}>
-          <Route index element={<Stages />} />
-          <Route path="learning" element={<Learning />} />
-          <Route path="learning/:lesson" element={<LessonPage />} />
-          <Route path="learning/:lesson/submission" element={<Submission />} />
-          <Route path="lecture" element={<Lecture />} />
-          <Route path="resources" element={<Resources />} />
-          <Route path="Challenges" element={<Challenges />} />
-          <Route path="mypage" element={<Mypage />} />
-          <Route path="Admin" element={<Admin />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <AuthWrapper>
+          <Routes>
+            <Route path='/' element={<Navigate to='/login' />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/editor' element={<Editor />} />
+
+            <Route path='/user' element={<Headfoot />}>
+              <Route index element={<Stages />} />
+              <Route path='learning' element={<Learning />} />
+              <Route path='learning/:lesson' element={<LessonPage />} />
+              <Route path='learning/:lesson/submission' element={<Submission />} />
+              <Route path='learning/:lesson/submission/:questionId' element={<Submission />} />
+              <Route path='learning/:lesson/review/:questionId' element={<ReviewPage />} />
+              <Route path='lecture' element={<Lecture />} />
+
+              <Route path='challenges' element={<Challenges />} />
+              <Route path='challenges/submission/:questionId' element={<ChallengeSubmission />} />
+              <Route path='challenges/submission' element={<ChallengeSubmission />} />
+              <Route path='challenges/review/:questionId' element={<ChallengeReview />} />
+
+              <Route path='resources' element={<Resources />} />
+              <Route path='mypage' element={<Mypage />} />
+              <Route path='admin' element={<Admin />} />
+            </Route>
+          </Routes>
+        </AuthWrapper>
+      </BrowserRouter>
+      <LoadingOverlay />
+    </>
   );
 }

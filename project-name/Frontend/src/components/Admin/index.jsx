@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { db } from '../../firebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
+import * as XLSX from 'xlsx'
 import '../../App.css'
 import './admin.css'
+const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5050";
 
 const lessonTopics = [
   'Primitive_types',
@@ -23,7 +25,7 @@ export default function Admin() {
   const [difficulty, setDifficulty] = useState('')
 
   useEffect(() => {
-    fetch('http://localhost:5050/api/lesson-status')
+    fetch(`${BASE}/api/lesson-status`)
       .then(res => res.json())
       .then(data => setLessonStatus([
         data.lesson1,
@@ -75,7 +77,7 @@ export default function Admin() {
       return acc
     }, {})
     try {
-      const res = await fetch('http://localhost:5050/api/lesson-status', {
+      const res = await fetch(`${BASE}/api/lesson-status`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ statuses: payload })
@@ -87,14 +89,46 @@ export default function Admin() {
     }
   }
 
+  const exportQuestionSet = async () => {
+    try {
+      const snap = await getDocs(collection(db, 'Questions'))
+      const rows = []
+      snap.forEach(docSnap => {
+        const topic = docSnap.id
+        const data = docSnap.data()
+        Object.entries(data).forEach(([qid, q]) => {
+          rows.push({
+            lesson: topic,
+            questionId: qid,
+            difficulty: q.Difficulty,
+            question: q.Question,
+            testCase1_input: q.testValue?.testCase1?.input || '',
+            testCase1_output: q.testValue?.testCase1?.output || '',
+            testCase2_input: q.testValue?.testCase2?.input || '',
+            testCase2_output: q.testValue?.testCase2?.output || '',
+            testCase3_input: q.testValue?.testCase3?.input || '',
+            testCase3_output: q.testValue?.testCase3?.output || ''
+          })
+        })
+      })
+      const ws = XLSX.utils.json_to_sheet(rows)
+      const wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, 'Questions')
+      XLSX.writeFile(wb, 'questions.xlsx')
+    } catch (err) {
+      console.error(err)
+      alert('ERROR')
+    }
+  }
+
   const openModal = () => setShowModal(true)
   const closeModal = () => {
     setShowModal(false)
     setSelectedLesson('')
     setDifficulty('')
   }
+
   const confirmGenerate = async () => {
-    console.log(`Generate ${difficulty} questions for ${selectedLesson}`)
     try {
       const topicmap = {
         'Lesson 1': 'Primitive_types',
@@ -105,9 +139,9 @@ export default function Admin() {
         'Lesson 6': '2D_array',
         'Lesson 7': 'Recursion',
         'Lesson 8': 'Random'
-      };
-      const topicKey = topicmap[selectedLesson];
-      const res = await fetch(`http://localhost:5050/api/gpt-problem?lesson=${topicKey}&difficulty=${difficulty.toLowerCase()}`);
+      }
+      const topicKey = topicmap[selectedLesson]
+      const res = await fetch(`${BASE}/api/gpt-problem?lesson=${topicKey}&difficulty=${difficulty.toLowerCase()}`)
       if (res.ok) alert('Successfully generated questions')
       else alert('failed generate questions')
     } catch {
@@ -162,7 +196,7 @@ export default function Admin() {
       <section className="question-management">
         <h2>Learning Missions Question Management</h2>
         <div className="btn-group">
-          <button className="admin-btn">Question Set</button>
+          <button className="admin-btn" onClick={exportQuestionSet}>Question Set</button>
           <button className="admin-btn" onClick={openModal}>Generate</button>
         </div>
         <table className="admin-table">
@@ -208,7 +242,7 @@ export default function Admin() {
                   <option value="" disabled>Select difficulty</option>
                   <option value="Easy">Easy</option>
                   <option value="Moderate">Moderate</option>
-                  <option value="Hard">Hard</option>
+                  <option value="Difficult">Difficult</option>
                 </select>
               </div>
             </div>

@@ -6,20 +6,7 @@
   margin: 0;
   /* padding: 2rem; */
   /* text-align: center; */
-  font-family: "Noto Sans KR";
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  font-family: 'Noto Sans KR';
 }
 
 @keyframes logo-spin {
@@ -41,18 +28,29 @@
   display: flex;
   height: 100%;
   text-align: center;
-  margin-left: 350px;
-  padding: 30px;
-  background-image: url("/src/assets/project_background.png");
-  background-size: 100% 100%
+  background-image: url('/src/assets/project_background.png');
+  background-size: 100% 100%;
+  overflow: hidden;
 }
 
-.Menu .Content{
+.Menu .Content {
   flex-grow: 1;
   height: 100%;
+  padding-left: 350px;
+  overflow-y: auto;
+  position: relative;
+  min-height: 100vh;
+}
+@media (max-width: 768px) {
+  .Menu {
+    padding-top: 66px;
+  }
+  .Menu .Content {
+    padding-left: 0px;
+  }
 }
 
-.Content{
+.Content {
   width: 100%;
 }
 
@@ -62,4 +60,23 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.btn-hover-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-hover-transition:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  filter: brightness(90%);
+}
+
+.desc-container {
+  width: 100%;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 1.5rem;
 }

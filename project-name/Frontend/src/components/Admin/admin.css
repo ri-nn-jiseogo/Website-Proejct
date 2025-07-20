@@ -13,22 +13,27 @@
 
     z-index: 9999;
 }
+@media (max-width: 768px) {
+    .admin-page {
+        left: 0;
+    }
+}
 
 .admin-page h1 {
-    font-size: 5rem;
+    font-size: 3rem;
     margin-bottom: 1.5rem;
     text-align: left;
     font-weight: bold;
 }
 
 .admin-page h2 {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 2rem;
     text-align: left;
 }
 
 .toggle-container {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     display: flex;
     justify-content: flex-start;
     gap: 10rem;

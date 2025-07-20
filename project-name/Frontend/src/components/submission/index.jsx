@@ -1,200 +1,323 @@
 // src/components/submission/index.jsx
-import React, { useState, useEffect } from "react";
-import "./submission.css";
-import { useNavigate, useParams } from "react-router-dom";
-import CodeMirror from "@uiw/react-codemirror";
-import { java } from "@codemirror/lang-java";
-import { dracula } from "@uiw/codemirror-theme-dracula";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../models/userinfos";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { useState, useEffect } from 'react';
+import styles from './submission.module.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import { EditorView } from '@uiw/react-codemirror';
+import CodeMirror from '@uiw/react-codemirror';
+import { java } from '@codemirror/lang-java';
+import { dracula } from '@uiw/codemirror-theme-dracula';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { userState } from '../../models/userinfos.js';
+import classNames from 'classnames';
+import { LESSON_FIRESTORE_DOCS } from '../../constants/lessons';
+import { loadingState } from '../../models/loading';
+
+const BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5050";
+
+const editorTheme = EditorView.theme({
+  '&': {
+    fontFamily: "'Fira Code', monospace",
+    fontSize: '20px',
+  },
+  '.cm-content': {
+    textAlign: 'left',
+  },
+});
+
+const INITIAL_CODE = `public class Main {
+    public static void main(String[] args) {
+        // Write your code here
+    }
+}`;
+
+const POINTS_MAP = {
+  easy: 10,
+  moderate: 20,
+  hard: 30,
+};
 
 const LESSON_MAP = {
-  lesson1: "Primitive_types",
-  lesson2: "If_statements",
-  lesson3: "Iteration",
-  lesson4: "Array",
-  lesson5: "ArrayList",
-  lesson6: "Array_2d",
-  lesson7: "Recursion",
-  lesson8: "Random",
+  lesson1: 'Primitive_types',
+  lesson2: 'If_statements',
+  lesson3: 'Iteration',
+  lesson4: 'Array',
+  lesson5: 'ArrayList',
+  lesson6: 'Array_2d',
+  lesson7: 'Recursion',
+  lesson8: 'Random',
 };
 
 export default function Submission() {
   const navigate = useNavigate();
   const user = useRecoilValue(userState);
-  const { lesson } = useParams();                         // ex. "lesson3"
-  const collectionName = LESSON_MAP[lesson] || lesson;     // ex. "Iteration"
-
+  const { lesson, questionId } = useParams();
+  const collectionName = LESSON_MAP[lesson] || lesson;
+  const setLoading = useSetRecoilState(loadingState);
+  const [currentDifficulty, setCurrentDifficulty] = useState('');
+  const [currentProblemId, setCurrentProblemId] = useState('');
+  const [missionContent, setMissionContent] = useState('Loading...');
+  const [userCode, setUserCode] = useState(`
+public class Main {
+    public static void main(String[] args) {
+      // Write your code here
+  }
+}
+`);
   const [showgiveupModal, setgiveupModal] = useState(false);
   const [showcorrectModal, setcorrectModal] = useState(false);
   const [showincorrectModal, setincorrectModal] = useState(false);
-
-  const [userCode, setUserCode] = useState(
-    `public class Main {
-    public static void main(String[] args) {
-        // Write your code here
+  const [showFinishModal, setShowFinishModal] = useState(false);
+  const handleSkip = async () => {
+    try {
+      await fetch(`${BASE}/api/skip-problem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user?.Id,
+          category: collectionName,
+          questionId: currentProblemId,
+        }),
+      });
+    } catch (err) {
+      console.error('Skip failed:', err);
+    } finally {
+      setgiveupModal(false);
+      setUserCode(INITIAL_CODE);
+      fetchProblem();
     }
-}`
-  );
-  const [responseMsg, setResponseMsg] = useState("");
-  const [missionContent, setMissionContent] = useState("Loading...");
-
-  useEffect(() => {
-    async function fetchMission() {
-      try {
-        const docRef = doc(db, "Questions", collectionName);
-        const snap = await getDoc(docRef);
-        if (snap.exists()) {
-          const data = snap.data();
-          setMissionContent(data.Q1?.Question || "No description.");
-        } else {
-          setMissionContent("No mission found for this lesson.");
-        }
-      } catch (error) {
-        console.error("Error fetching mission:", error);
-        setMissionContent("Error loading mission.");
-      }
-    }
-    fetchMission();
-  }, [collectionName]);
-
-  const handleBack = () => navigate(-1);
-  const handleGiveUp = () => {
-          setgiveupModal(true);
-    // if (window.confirm("Do you want to skip question?")) {
-    //   navigate(`/user/learning/${lesson}`);
-
-    // }
   };
 
-  const handleSubmit = async () => {
-    setResponseMsg("Grading...");
+  const fetchNextProblem = async () => {
+    const res = await fetch(`${BASE}/api/next-problem`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userID: user?.Id,
+        category: collectionName,
+      }),
+    });
+    const data = await res.json();
+
+    return {
+      currentProblemId: data.nextProblemId,
+      problemData: data.problemData,
+    };
+  };
+
+  const fetchCurrentProblem = async (currentProblemId) => {
+    const firestoreLesson = LESSON_FIRESTORE_DOCS[lesson];
+    const res = await fetch(
+      `${BASE}/api/get-problem?lesson=${firestoreLesson}&problem_id=${currentProblemId}`,
+      {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
+    const data = await res.json();
+
+    return {
+      currentProblemId,
+      problemData: data[currentProblemId],
+    };
+  };
+
+  const fetchProblem = async () => {
     try {
-      const res = await fetch("http://localhost:5050/api/submit-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      let data;
+      if (questionId) {
+        data = await fetchCurrentProblem(questionId);
+      } else {
+        data = await fetchNextProblem();
+      }
+
+      if (data.message) {
+        setShowFinishModal(true);
+        return;
+      }
+
+      if (data.currentProblemId && data.problemData) {
+        setCurrentProblemId(data.currentProblemId);
+        setCurrentDifficulty((data.problemData.Difficulty || '').toLowerCase());
+        setMissionContent(data.problemData.Question || 'No description.');
+      } else {
+        setMissionContent('No more problems left.');
+      }
+    } catch (err) {
+      console.error('Failed to fetch problem:', err);
+      setMissionContent('Failed to load problem.');
+    }
+  };
+
+  useEffect(() => {
+    fetchProblem();
+  }, [navigate]);
+
+  const handleBack = () => navigate(`/user/learning/${lesson}`);
+  const handleGiveUp = () => setgiveupModal(true);
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${BASE}/api/submit-code`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           code: userCode,
           userID: user?.Id,
           category: collectionName,
-          problem_id: "Q1"
+          problem_id: currentProblemId,
         }),
       });
       const data = await res.json();
-      if (data.result === "Correct") {
-        setResponseMsg("Correct!");
+      setLoading(false);
+      if (data.result === 'Correct') {
         setcorrectModal(true);
-      }
-      else if (data.result === "compile_error") {
-        setResponseMsg("Compile Error:\n" + data.message);
+      } else {
         setincorrectModal(true);
       }
-      else if (data.result === "Incorrect") {
-        setResponseMsg("Incorrect.");
-        setincorrectModal(true);
-      }
-      else setResponseMsg(`Error: ${JSON.stringify(data)}`);
     } catch (error) {
       console.error(error);
-      setResponseMsg("Server Disconnected.");
     }
   };
 
   return (
-    <div className="content">
-      <div className="TextBox">
-        <div className="flex-container">
-          <h1 className="missions">Missions</h1>
-        </div>
-        <p className="stage-desc">
+    <div className={styles.content}>
+      <div className={styles['flex-container']}>
+        <h1 className={styles['missions-title']}>Missions</h1>
+        <p className={styles['stage-desc']}>
           In the game, you are allowed to participate in up to 15 missions at a time.
           <br />
-          If you wish to join more missions, you must wait for a cooldown period before you can continue.
+          If you wish to join more missions, you must wait for a cooldown period before you can
+          continue.
         </p>
       </div>
 
-      <div className="submission-container">
-        <section className="mission">
-          <h1 className="title">Mission</h1>
-          <div className="mission-desc">
-            <p className="mission-content">{missionContent}</p>
+      <div className={styles['submission-container']}>
+        <div className={styles.panels}>
+          <h1 className={styles.title}>Mission</h1>
+          <div className={styles['mission-desc']}>
+            <p className={styles['mission-content']}>{missionContent}</p>
           </div>
-          <button className="btn-back" onClick={handleBack}>
+          <button
+            className={classNames('btn-hover-transition', styles['btn-back'])}
+            onClick={handleBack}>
             Back
           </button>
-        </section>
+        </div>
+        <div className={styles.panels}>
+          <h1 className={styles.title}>Code</h1>
 
-        <section className="right-panel">
-          <div className="code">
-            <h1 className="title">Code</h1>
+          <div className={styles['code-editor-container']}>
             <CodeMirror
               value={userCode}
-              height="100%"
+              height='100%'
               theme={dracula}
-              extensions={[java()]}
-              className="code-editor"
+              extensions={[java(), editorTheme]}
               onChange={setUserCode}
             />
           </div>
 
-          <div className="right-buttons">
-            <button className="btn-giveup" onClick={handleGiveUp}>
+          <div className={styles['right-buttons']}>
+            <button
+              className={classNames('btn-hover-transition', styles['btn-giveup'])}
+              onClick={handleGiveUp}>
               GIVE UP
             </button>
-            <button className="btn-submit" onClick={handleSubmit}>
+            <button
+              className={classNames('btn-hover-transition', styles['btn-submit'])}
+              onClick={handleSubmit}>
               CHECK!
             </button>
-            <div style={{ marginTop: "1rem", whiteSpace: "pre-wrap" }}>
-            </div>
           </div>
-        </section>
+        </div>
       </div>
+
       {showgiveupModal && (
-        <div className="popup-overlay">
-          <div className="popup-content">
+        <div className={styles['popup-overlay']}>
+          <div className={styles['popup-content']}>
             <h2>Skip?</h2>
             <ol>
               <li>Are you sure you want to skip this question?</li>
               <li>You may not receive any points.</li>
             </ol>
-            <div className="popup-buttons">
-              <button onClick={() => setgiveupModal(false)}>Cancel</button>
-              <button onClick={() => setgiveupModal(false)}>Skip</button>
-
+            <div className={styles['popup-buttons']}>
+              <button className='btn-hover-transition' onClick={() => setgiveupModal(false)}>
+                Cancel
+              </button>
+              <button className='btn-hover-transition' onClick={handleSkip}>
+                Skip
+              </button>
             </div>
           </div>
         </div>
       )}
-      {showcorrectModal && (
-        <div className="popup-overlay">
-          <div className="popup-content">
+
+      {showFinishModal && (
+        <div className={styles['popup-overlay']}>
+          <div className={styles['popup-content']}>
             <h2>Correct!</h2>
             <ol>
-              <li>You are rewarded ( 80 ) points!</li>
-              <li>You have ( 8 ) more missions to try.</li>
+              <li>You are rewarded ({POINTS_MAP[currentDifficulty]}) points!</li>
+              <li>You don’t have any missions to try.</li>
             </ol>
-            <div className="popup-buttons">
-              <button onClick={() => setcorrectModal(false)}>Stop</button>
-              <button onClick={() => setcorrectModal(false)}>More</button>
-
+            <div className={styles['popup-buttons']}>
+              <button
+                className='btn-hover-transition'
+                onClick={() => {
+                  setShowFinishModal(false);
+                  navigate(-1);
+                }}>
+                CLOSE
+              </button>
             </div>
           </div>
         </div>
       )}
+
+      {showcorrectModal && (
+        <div className={styles['popup-overlay']}>
+          <div className={styles['popup-content']}>
+            <h2>Correct!</h2>
+            <ol>
+              <li>You are rewarded ({POINTS_MAP[currentDifficulty] || 0}) point.</li>
+              <li>Try the next one!</li>
+            </ol>
+            <div className={styles['popup-buttons']}>
+              <button className='btn-hover-transition' onClick={() => setcorrectModal(false)}>
+                Stop
+              </button>
+              <button
+                className='btn-hover-transition'
+                onClick={() => {
+                  if (questionId) {
+                    navigate(`/user/learning/${lesson}/submission`, { replace: true});
+                  }
+                  setcorrectModal(false);
+                  setUserCode(INITIAL_CODE);
+                  fetchProblem();
+                }}>
+                More
+              </button>{' '}
+            </div>
+          </div>
+        </div>
+      )}
+
       {showincorrectModal && (
-        <div className="popup-overlay">
-          <div className="popup-content">
+        <div className={styles['popup-overlay']}>
+          <div className={styles['popup-content']}>
             <h2>Incorrect!</h2>
             <ol>
               <li>Your Code is incorrect.</li>
               <li>Find mistakes to receive the point!</li>
             </ol>
-            <div className="popup-buttons">
-              <button onClick={() => setincorrectModal(false)}>Stop</button>
-              <button onClick={() => setincorrectModal(false)}>Try Again</button>
-
+            <div className={styles['popup-buttons']}>
+              <button className='btn-hover-transition' onClick={() => setincorrectModal(false)}>
+                Stop
+              </button>
+              <button className='btn-hover-transition' onClick={() => setincorrectModal(false)}>
+                Try Again
+              </button>
             </div>
           </div>
         </div>

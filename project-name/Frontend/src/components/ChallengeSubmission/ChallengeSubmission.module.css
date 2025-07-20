@@ -1,0 +1,17 @@
+.submit-btn {
+  background-color: #65c726;
+  color: #fff;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 24px;
+  font-family: 'Slackey', cursive;
+  font-size: 1.7rem;
+  cursor: pointer;
+  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.loading {
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}

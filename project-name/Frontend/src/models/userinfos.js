@@ -1,9 +1,7 @@
 // src/models/userinfos.js
 import { atom } from 'recoil';
 
-export const userState = atom({
-  key: 'user',
-  default: {
+export const defaultUserState = {
     Id: undefined,
     email: undefined,
     firstname: undefined,
@@ -14,4 +12,7 @@ export const userState = atom({
     stats: { difficult: 0, moderate: 0, easy: 0 },
     challenges: 0,
   }
+export const userState = atom({
+  key: 'user',
+  default: defaultUserState
 });

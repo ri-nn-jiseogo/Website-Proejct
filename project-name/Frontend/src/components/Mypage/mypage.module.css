@@ -1,0 +1,190 @@
+.my-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1800px;
+  color: #1a1a1a;
+  padding-bottom: 5rem;
+}
+
+.my-page__title {
+  text-align: left;
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Slackey', cursive;
+}
+
+.my-page__card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  padding: 3rem;
+  min-height: 50vh;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.my-page__welcome {
+  text-align: left;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Slackey', cursive;
+}
+
+.my-page__content {
+  display: flex;
+  gap: 2rem;
+}
+
+@media (max-width: 1200px) {
+  .my-page__welcome {
+    font-size: 2rem;
+  }
+  .my-page__content {
+    flex-direction: column;
+  }
+}
+
+.my-page__profile {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+.my-page__section-title {
+  font-family: 'Slackey', cursive;
+  font-size: 2rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 920px) {
+  .my-page__section-title {
+    font-size: 1.5rem;
+  }
+  .my-page__actions {
+    flex-direction: column;
+  }
+}
+
+.my-page__text {
+  font-size: 1.4rem;
+  text-align: left;
+  font-family: 'oxanium';
+}
+.my-page__indent {
+  margin-left: 1.5rem;
+}
+
+.my-page__activity {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.my-page__button {
+  padding: 0.75rem 1.5rem;
+  font-size: 2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: 'slackey';
+}
+.my-page__button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.my-page__button--edit {
+  background-color: #836c72;
+  color: #fff;
+  margin-top: 1rem;
+}
+.my-page__button--edit:hover {
+  background-color: #6e595f;
+}
+
+.my-page__button--delete {
+  background-color: #fff;
+  color: #000;
+}
+.my-page__button--delete:hover {
+  background-color: #f0f0f0;
+}
+
+.my-page__button--signout {
+  background-color: #836c72;
+  color: #fff;
+}
+.my-page__button--signout:hover {
+  background-color: #6e595f;
+}
+
+.my-page__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem 2rem;
+  padding-bottom: 1rem;
+}
+
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.delete-modal-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.delete-modal-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  font-family: 'Slackey', cursive;
+}
+.delete-modal-content p {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+.delete-modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.delete-modal-buttons button {
+  padding: 8px 24px;
+  border: none;
+  border-radius: 24px;
+  font-family: 'Slackey', cursive;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+}
+.delete-modal-buttons button:first-child {
+  background-color: #d2d2d2;
+  color: #000;
+}
+.delete-modal-buttons button:last-child {
+  background-color: #e0245e;
+  color: #fff;
+}
+.delete-modal-buttons button:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
