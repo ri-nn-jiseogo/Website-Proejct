@@ -26,5 +26,6 @@ dist-ssr
 
 Frontend/src/components/GPT/index.jsx
 
-app.py
 firebase_key.json
+Dockerfile
+requirements.txt
